@@ -1,45 +1,31 @@
-// ==========================================
-// FARMSYNC - FULL UPGRADED SCRIPT
-// Firebase / OTP இல்லாமல் prototype
-// ==========================================
+// ============================================
+// FARMSYNC
+// Farmer -> Consumer Dynamic Listing
+// No Firebase / No OTP
+// ============================================
 
 
-// ==========================================
-// DEFAULT DATA
-// ==========================================
+// --------------------------------------------
+// DATA
+// --------------------------------------------
 
-const defaultProduce = {
-    crop: "Tomato",
-    quantity: 100,
-    price: 27,
-    harvest: "Ready"
-};
+let produce = JSON.parse(
+    localStorage.getItem("farmsyncProduce")
+) || null;
 
-
-// ==========================================
-// LOAD DATA FROM LOCAL STORAGE
-// ==========================================
-
-let produce =
-    JSON.parse(localStorage.getItem("farmsyncProduce"))
-    || defaultProduce;
+let orders = JSON.parse(
+    localStorage.getItem("farmsyncOrders")
+) || [];
 
 let joinedPool =
     localStorage.getItem("farmsyncPool") === "true";
 
-let orders =
-    JSON.parse(localStorage.getItem("farmsyncOrders"))
-    || [];
-
-let selectedProduct = {
-    name: "Tomato",
-    price: 30
-};
+let selectedProduct = null;
 
 
-// ==========================================
+// --------------------------------------------
 // SAVE DATA
-// ==========================================
+// --------------------------------------------
 
 function saveData() {
 
@@ -49,53 +35,43 @@ function saveData() {
     );
 
     localStorage.setItem(
-        "farmsyncPool",
-        joinedPool
+        "farmsyncOrders",
+        JSON.stringify(orders)
     );
 
     localStorage.setItem(
-        "farmsyncOrders",
-        JSON.stringify(orders)
+        "farmsyncPool",
+        joinedPool
     );
 }
 
 
-// ==========================================
-// SCREEN NAVIGATION
-// ==========================================
+// --------------------------------------------
+// SCREEN
+// --------------------------------------------
 
 function showScreen(id) {
 
     document
         .querySelectorAll(".screen")
         .forEach(screen => {
-
             screen.classList.remove("active");
-
         });
-
 
     const screen =
         document.getElementById(id);
 
-
     if (screen) {
-
         screen.classList.add("active");
-
     }
 
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo(0, 0);
 }
 
 
-// ==========================================
+// --------------------------------------------
 // HOME
-// ==========================================
+// --------------------------------------------
 
 function goHome() {
 
@@ -104,9 +80,9 @@ function goHome() {
 }
 
 
-// ==========================================
+// --------------------------------------------
 // FARMER
-// ==========================================
+// --------------------------------------------
 
 function openFarmer() {
 
@@ -117,106 +93,101 @@ function openFarmer() {
 }
 
 
-// ==========================================
-// CONSUMER
-// ==========================================
-
-function openConsumer() {
-
-    showScreen("consumer");
-
-    loadConsumerProducts();
-
-}
-
-
-// ==========================================
+// --------------------------------------------
 // ADD PRODUCE
-// ==========================================
+// --------------------------------------------
 
 function openAddProduce() {
 
     showScreen("addProduce");
 
+    if (produce) {
 
-    document.getElementById("cropName").value =
-        produce.crop || "Tomato";
+        document.getElementById("farmerName").value =
+            produce.farmerName;
 
-    document.getElementById("quantity").value =
-        "";
+        document.getElementById("farmerLocation").value =
+            produce.farmerLocation;
 
-    document.getElementById("price").value =
-        "";
+    }
 
-    document.getElementById("harvest").value =
-        "";
-
-    document.getElementById("addMessage").innerHTML =
-        "";
 }
 
 
-// ==========================================
+// --------------------------------------------
 // ADD PRODUCE
-// ==========================================
+// --------------------------------------------
 
 function addProduce() {
 
+    const farmerName =
+        document.getElementById("farmerName")
+        .value
+        .trim();
+
+    const farmerLocation =
+        document.getElementById("farmerLocation")
+        .value
+        .trim();
+
     const crop =
         document.getElementById("cropName")
-            .value
-            .trim();
+        .value
+        .trim();
 
     const quantity =
         Number(
             document.getElementById("quantity")
-                .value
+            .value
         );
 
     const price =
         Number(
             document.getElementById("price")
-                .value
+            .value
         );
 
     const harvest =
         document.getElementById("harvest")
-            .value
-            .trim();
+        .value
+        .trim();
 
 
-    // Validation
+    // VALIDATION
 
-    if (crop === "") {
+    if (!farmerName) {
+        alert("Please enter farmer name.");
+        return;
+    }
 
+    if (!farmerLocation) {
+        alert("Please enter location.");
+        return;
+    }
+
+    if (!crop) {
         alert("Please enter crop name.");
-
         return;
+    }
 
+    if (!quantity || quantity <= 0) {
+        alert("Please enter valid quantity.");
+        return;
+    }
+
+    if (!price || price <= 0) {
+        alert("Please enter valid price.");
+        return;
     }
 
 
-    if (quantity <= 0 || isNaN(quantity)) {
-
-        alert("Please enter a valid quantity.");
-
-        return;
-
-    }
-
-
-    if (price <= 0 || isNaN(price)) {
-
-        alert("Please enter a valid price.");
-
-        return;
-
-    }
-
-
-    // Save produce
+    // CREATE PRODUCE
 
     produce = {
+
+        farmerName: farmerName,
+
+        farmerLocation: farmerLocation,
 
         crop: crop,
 
@@ -224,17 +195,21 @@ function addProduce() {
 
         price: price,
 
-        harvest: harvest || "Ready"
+        harvest:
+            harvest || "Ready",
+
+        createdAt:
+            new Date().toLocaleString()
 
     };
 
 
+    // SAVE
+
     saveData();
 
 
-    const earnings =
-        quantity * price;
-
+    // MESSAGE
 
     document.getElementById(
         "addMessage"
@@ -242,10 +217,20 @@ function addProduce() {
 
         <div class="success-message">
 
-            <b>✅ Produce Listed Successfully!</b>
+            <b>
+                ✅ Produce Listed Successfully!
+            </b>
 
             <p>
-                🌱 ${crop}
+                👨‍🌾 ${escapeHTML(farmerName)}
+            </p>
+
+            <p>
+                📍 ${escapeHTML(farmerLocation)}
+            </p>
+
+            <p>
+                🌱 ${escapeHTML(crop)}
             </p>
 
             <p>
@@ -256,13 +241,6 @@ function addProduce() {
                 💰 ₹${price}/kg
             </p>
 
-            <p>
-                💵 Expected Earnings:
-                <b>
-                    ₹${earnings.toLocaleString("en-IN")}
-                </b>
-            </p>
-
         </div>
 
     `;
@@ -271,116 +249,136 @@ function addProduce() {
     updateDashboard();
 
 
-    // Automatically open My Produce
+    // AUTOMATICALLY OPEN MY PRODUCE
 
     setTimeout(() => {
 
         openMyProduce();
 
-    }, 1200);
+    }, 1000);
 
 }
 
 
-// ==========================================
-// FARMER DASHBOARD
-// ==========================================
+// --------------------------------------------
+// DASHBOARD
+// --------------------------------------------
 
 function updateDashboard() {
 
+    const name =
+        document.getElementById(
+            "farmerDisplayName"
+        );
+
+    const location =
+        document.getElementById(
+            "farmerDisplayLocation"
+        );
+
     const quantity =
-        Number(produce.quantity) || 0;
-
-    const price =
-        Number(produce.price) || 0;
-
+        document.getElementById(
+            "myQuantity"
+        );
 
     const earnings =
-        quantity * price;
+        document.getElementById(
+            "farmerEarnings"
+        );
 
 
-    const myQuantity =
-        document.getElementById("myQuantity");
+    if (!produce) {
 
-    if (myQuantity) {
+        if (name)
+            name.innerText = "Farmer";
 
-        myQuantity.innerText =
-            quantity + " kg";
+        if (location)
+            location.innerText = "📍 Location";
+
+        if (quantity)
+            quantity.innerText = "0 kg";
+
+        if (earnings)
+            earnings.innerText = "₹0";
+
+        return;
+    }
+
+
+    if (name) {
+
+        name.innerText =
+            produce.farmerName;
 
     }
 
 
-    const farmerEarnings =
-        document.getElementById("farmerEarnings");
+    if (location) {
 
-    if (farmerEarnings) {
+        location.innerText =
+            "📍 " +
+            produce.farmerLocation;
 
-        farmerEarnings.innerText =
+    }
+
+
+    if (quantity) {
+
+        quantity.innerText =
+            produce.quantity +
+            " kg";
+
+    }
+
+
+    if (earnings) {
+
+        const total =
+            produce.quantity *
+            produce.price;
+
+        earnings.innerText =
             "₹" +
-            earnings.toLocaleString("en-IN");
-
-    }
-
-
-    const yourPool =
-        document.getElementById("yourPool");
-
-    if (yourPool) {
-
-        yourPool.innerText =
-            quantity + " kg";
-
-    }
-
-
-    const totalPool =
-        document.getElementById("totalPool");
-
-    if (totalPool) {
-
-        totalPool.innerText =
-            (quantity + 400) + " kg";
-
-    }
-
-
-    const decisionCrop =
-        document.getElementById("decisionCrop");
-
-    if (decisionCrop) {
-
-        decisionCrop.innerText =
-            produce.crop;
+            total.toLocaleString("en-IN");
 
     }
 
 }
 
 
-// ==========================================
+// --------------------------------------------
 // MY PRODUCE
-// ==========================================
+// --------------------------------------------
 
 function openMyProduce() {
 
     showScreen("myProduce");
 
-
     const list =
-        document.getElementById("produceList");
+        document.getElementById(
+            "produceList"
+        );
 
 
-    if (!list) return;
+    if (!produce) {
 
+        list.innerHTML = `
 
-    let icon = getCropIcon(
-        produce.crop
-    );
+            <div class="empty-box">
 
+                🌱 No produce listed yet.
 
-    const earnings =
-        produce.quantity *
-        produce.price;
+                <br><br>
+
+                Add your first crop.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
 
 
     list.innerHTML = `
@@ -388,39 +386,54 @@ function openMyProduce() {
         <div class="produce-card">
 
             <div class="crop-icon">
-                ${icon}
+
+                ${getCropIcon(
+                    produce.crop
+                )}
+
             </div>
 
 
-            <div>
+            <div class="produce-main">
 
                 <h3>
-                    ${escapeHTML(produce.crop)}
+                    ${escapeHTML(
+                        produce.crop
+                    )}
                 </h3>
 
                 <p>
-                    ${produce.quantity} kg available
+                    👨‍🌾
+                    ${escapeHTML(
+                        produce.farmerName
+                    )}
                 </p>
 
-                <b>
+                <p>
+                    📍
+                    ${escapeHTML(
+                        produce.farmerLocation
+                    )}
+                </p>
+
+                <p>
+                    ⚖️
+                    ${produce.quantity} kg
+                </p>
+
+                <p>
+                    💰
                     ₹${produce.price}/kg
-                </b>
-
-                <p>
-                    Expected:
-                    ₹${earnings.toLocaleString("en-IN")}
                 </p>
 
                 <p>
-                    📅 ${escapeHTML(produce.harvest)}
+                    📅
+                    ${escapeHTML(
+                        produce.harvest
+                    )}
                 </p>
 
             </div>
-
-
-            <span class="available">
-                ACTIVE
-            </span>
 
         </div>
 
@@ -429,75 +442,409 @@ function openMyProduce() {
 }
 
 
-// ==========================================
-// CROP ICON
-// ==========================================
+// --------------------------------------------
+// CONSUMER
+// --------------------------------------------
 
-function getCropIcon(crop) {
+function openConsumer() {
 
-    const name =
-        crop.toLowerCase();
+    showScreen("consumer");
 
-
-    if (name.includes("tomato"))
-        return "🍅";
-
-
-    if (name.includes("onion"))
-        return "🧅";
-
-
-    if (name.includes("potato"))
-        return "🥔";
-
-
-    if (name.includes("carrot"))
-        return "🥕";
-
-
-    if (name.includes("brinjal"))
-        return "🍆";
-
-
-    if (name.includes("banana"))
-        return "🍌";
-
-
-    if (name.includes("mango"))
-        return "🥭";
-
-
-    if (name.includes("apple"))
-        return "🍎";
-
-
-    return "🌱";
+    renderConsumerProducts();
 
 }
 
 
-// ==========================================
-// SMART SELL / HOLD
-// ==========================================
+// --------------------------------------------
+// CONSUMER PRODUCTS
+// --------------------------------------------
+
+function renderConsumerProducts() {
+
+    const container =
+        document.getElementById(
+            "consumerProducts"
+        );
+
+    const empty =
+        document.getElementById(
+            "emptyConsumer"
+        );
+
+
+    if (!produce) {
+
+        container.innerHTML = "";
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    empty.style.display = "none";
+
+
+    const icon =
+        getCropIcon(
+            produce.crop
+        );
+
+
+    // Demo market price
+    const marketPrice =
+        Math.ceil(
+            produce.price * 1.25
+        );
+
+
+    const saving =
+        marketPrice -
+        produce.price;
+
+
+    container.innerHTML = `
+
+        <div class="product-card">
+
+            <div class="product-top">
+
+                <div class="product-image">
+
+                    ${icon}
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <h3>
+
+                        ${escapeHTML(
+                            produce.crop
+                        )}
+
+                    </h3>
+
+
+                    <p>
+
+                        👨‍🌾 Farmer:
+
+                        <b>
+                            ${escapeHTML(
+                                produce.farmerName
+                            )}
+                        </b>
+
+                    </p>
+
+
+                    <p>
+
+                        📍
+
+                        ${escapeHTML(
+                            produce.farmerLocation
+                        )}
+
+                    </p>
+
+
+                    <p>
+
+                        ⚖️
+
+                        ${produce.quantity}
+                        kg available
+
+                    </p>
+
+
+                    <p>
+
+                        📅
+
+                        ${escapeHTML(
+                            produce.harvest
+                        )}
+
+                    </p>
+
+
+                    <p class="farmer-price">
+
+                        💰 ₹${produce.price}
+                        / kg
+
+                    </p>
+
+
+                    <p class="market-price">
+
+                        🏪 Market:
+                        ₹${marketPrice}/kg
+
+                    </p>
+
+
+                    <p class="saving">
+
+                        💚 You save
+                        ₹${saving}/kg
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="buy-btn"
+                onclick="buyProduce()">
+
+                🛒 BUY FROM FARMER
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+// --------------------------------------------
+// BUY
+// --------------------------------------------
+
+function buyProduce() {
+
+    if (!produce) {
+
+        alert(
+            "No produce available."
+        );
+
+        return;
+
+    }
+
+
+    selectedProduct = {
+        ...produce
+    };
+
+
+    document.getElementById(
+        "orderProduct"
+    ).innerText =
+        produce.crop;
+
+
+    document.getElementById(
+        "orderFarmer"
+    ).innerText =
+        produce.farmerName;
+
+
+    document.getElementById(
+        "orderLocation"
+    ).innerText =
+        produce.farmerLocation;
+
+
+    document.getElementById(
+        "orderPrice"
+    ).innerText =
+        "₹" + produce.price;
+
+
+    document.getElementById(
+        "orderQuantity"
+    ).value = 1;
+
+
+    updateOrderTotal();
+
+
+    showScreen("order");
+
+}
+
+
+// --------------------------------------------
+// ORDER TOTAL
+// --------------------------------------------
+
+function updateOrderTotal() {
+
+    if (!selectedProduct)
+        return;
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "orderQuantity"
+            ).value
+        ) || 0;
+
+
+    const total =
+        selectedProduct.price *
+        quantity;
+
+
+    document.getElementById(
+        "orderTotal"
+    ).innerText =
+        "₹" +
+        total.toLocaleString("en-IN");
+
+}
+
+
+// --------------------------------------------
+// CONFIRM ORDER
+// --------------------------------------------
+
+function confirmOrder() {
+
+    if (!selectedProduct)
+        return;
+
+
+    const quantity =
+        Number(
+            document.getElementById(
+                "orderQuantity"
+            ).value
+        );
+
+
+    if (
+        !quantity ||
+        quantity <= 0
+    ) {
+
+        alert(
+            "Enter valid quantity."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        quantity >
+        selectedProduct.quantity
+    ) {
+
+        alert(
+            "Not enough produce available."
+        );
+
+        return;
+
+    }
+
+
+    const total =
+        selectedProduct.price *
+        quantity;
+
+
+    const orderId =
+        "FS" +
+        Date.now()
+            .toString()
+            .slice(-6);
+
+
+    const order = {
+
+        id: orderId,
+
+        farmer:
+            selectedProduct.farmerName,
+
+        location:
+            selectedProduct.farmerLocation,
+
+        crop:
+            selectedProduct.crop,
+
+        quantity:
+            quantity,
+
+        price:
+            selectedProduct.price,
+
+        total:
+            total,
+
+        date:
+            new Date().toLocaleString()
+
+    };
+
+
+    orders.push(order);
+
+    saveData();
+
+
+    document.getElementById(
+        "orderId"
+    ).innerText =
+        orderId;
+
+
+    showScreen(
+        "orderSuccess"
+    );
+
+}
+
+
+// --------------------------------------------
+// QUANTITY CHANGE
+// --------------------------------------------
+
+document.addEventListener(
+    "input",
+    function(event) {
+
+        if (
+            event.target.id ===
+            "orderQuantity"
+        ) {
+
+            updateOrderTotal();
+
+        }
+
+    }
+);
+
+
+// --------------------------------------------
+// SMART SELL
+// --------------------------------------------
 
 function openDecision() {
 
     showScreen("decision");
 
-    updateDecision();
+    if (produce) {
 
-}
-
-
-function updateDecision() {
-
-    const crop =
-        document.getElementById("decisionCrop");
-
-
-    if (crop) {
-
-        crop.innerText =
+        document.getElementById(
+            "decisionCrop"
+        ).innerText =
             produce.crop;
 
     }
@@ -507,13 +854,10 @@ function updateDecision() {
 
 function holdProduce() {
 
-    saveData();
-
-
-    showMessage(
+    alert(
         "🟢 " +
         produce.crop +
-        " added to 3-day HOLD plan."
+        " added to HOLD plan."
     );
 
 }
@@ -521,18 +865,18 @@ function holdProduce() {
 
 function sellNow() {
 
-    showMessage(
+    alert(
         "💰 " +
         produce.crop +
-        " marked for SELL NOW."
+        " marked for SELL."
     );
 
 }
 
 
-// ==========================================
+// --------------------------------------------
 // POWER POOL
-// ==========================================
+// --------------------------------------------
 
 function openPool() {
 
@@ -540,22 +884,121 @@ function openPool() {
 
     updateDashboard();
 
-
-    if (joinedPool) {
-
-        showPoolJoined();
-
-    }
+    startDemandMatching();
 
 }
 
 
+function startDemandMatching() {
+
+    const bar =
+        document.getElementById(
+            "matchBar"
+        );
+
+    const percent =
+        document.getElementById(
+            "matchPercent"
+        );
+
+    const text =
+        document.getElementById(
+            "matchText"
+        );
+
+
+    if (!bar || !percent)
+        return;
+
+
+    let value = 0;
+
+
+    bar.style.width = "0%";
+
+    percent.innerText = "0";
+
+
+    text.innerText =
+        "🔍 Finding consumer demand...";
+
+
+    const timer =
+        setInterval(() => {
+
+            value += 5;
+
+
+            if (value > 90)
+                value = 90;
+
+
+            bar.style.width =
+                value + "%";
+
+
+            percent.innerText =
+                value;
+
+
+            if (
+                value === 25
+            ) {
+
+                text.innerText =
+                    "📡 Checking farmer supply...";
+
+            }
+
+
+            if (
+                value === 50
+            ) {
+
+                text.innerText =
+                    "📊 Comparing demand...";
+
+            }
+
+
+            if (
+                value === 75
+            ) {
+
+                text.innerText =
+                    "🎯 Matching buyers...";
+
+            }
+
+
+            if (
+                value === 90
+            ) {
+
+                clearInterval(timer);
+
+
+                text.innerHTML =
+                    "✅ <b>90% Demand Match!</b><br>" +
+                    "Your produce matches current consumer demand.";
+
+            }
+
+        }, 100);
+
+}
+
+
+// --------------------------------------------
+// JOIN POWER POOL
+// --------------------------------------------
+
 function joinPool() {
 
-    if (joinedPool) {
+    if (!produce) {
 
-        showMessage(
-            "You are already a member of the Power Pool."
+        alert(
+            "First add your produce."
         );
 
         return;
@@ -565,49 +1008,48 @@ function joinPool() {
 
     joinedPool = true;
 
-
     saveData();
 
 
-    showPoolJoined();
+    const button =
+        document.getElementById(
+            "poolButton"
+        );
 
 
-    alert(
-        "👥 Successfully joined FARMSYNC Power Pool!"
-    );
-
-}
+    button.innerText =
+        "✅ POWER POOL JOINED";
 
 
-function showPoolJoined() {
-
-    const status =
-        document.getElementById("poolStatus");
+    button.disabled =
+        true;
 
 
-    if (!status) return;
-
-
-    status.innerHTML = `
+    document.getElementById(
+        "poolStatus"
+    ).innerHTML = `
 
         <div class="success-message">
 
             <b>
-                ✅ Power Pool Joined
+                ✅ Power Pool Active
             </b>
 
             <p>
-                Your
-                <b>${produce.quantity} kg</b>
-                of ${escapeHTML(produce.crop)}
-                has been added.
+                👨‍🌾 ${escapeHTML(
+                    produce.farmerName
+                )}
             </p>
 
             <p>
-                👥 Total Pool:
-                <b>
-                    ${produce.quantity + 400} kg
-                </b>
+                📍 ${escapeHTML(
+                    produce.farmerLocation
+                )}
+            </p>
+
+            <p>
+                ⚖️ Contribution:
+                ${produce.quantity} kg
             </p>
 
             <p>
@@ -622,217 +1064,73 @@ function showPoolJoined() {
 }
 
 
-// ==========================================
-// BUYER DEMAND
-// ==========================================
+// --------------------------------------------
+// CROP ICON
+// --------------------------------------------
 
-function openDemand() {
+function getCropIcon(crop) {
 
-    showScreen("demand");
-
-}
-
-
-// ==========================================
-// CONSUMER PRODUCTS
-// ==========================================
-
-function loadConsumerProducts() {
-
-    // The farmer's latest crop can be highlighted
-    // through the marketplace in the prototype.
-
-    console.log(
-        "FARMSYNC marketplace loaded"
-    );
-
-}
+    const name =
+        crop.toLowerCase();
 
 
-// ==========================================
-// BUY PRODUCT
-// ==========================================
+    if (name.includes("tomato"))
+        return "🍅";
 
-function buy(product, price) {
+    if (name.includes("onion"))
+        return "🧅";
 
-    selectedProduct = {
+    if (name.includes("carrot"))
+        return "🥕";
 
-        name: product,
+    if (name.includes("potato"))
+        return "🥔";
 
-        price: price
+    if (name.includes("brinjal"))
+        return "🍆";
 
-    };
+    if (name.includes("banana"))
+        return "🍌";
 
+    if (name.includes("mango"))
+        return "🥭";
 
-    const productElement =
-        document.getElementById("orderProduct");
+    if (name.includes("corn"))
+        return "🌽";
 
-
-    const priceElement =
-        document.getElementById("orderPrice");
-
-
-    const quantityElement =
-        document.getElementById("orderQuantity");
-
-
-    if (productElement) {
-
-        productElement.innerText =
-            product;
-
-    }
-
-
-    if (priceElement) {
-
-        priceElement.innerText =
-            "₹" + price;
-
-    }
-
-
-    if (quantityElement) {
-
-        quantityElement.value = 1;
-
-    }
-
-
-    showScreen("order");
+    return "🌱";
 
 }
 
 
-// ==========================================
-// CONFIRM ORDER
-// ==========================================
-
-function confirmOrder() {
-
-    const quantityInput =
-        document.getElementById(
-            "orderQuantity"
-        );
-
-
-    const quantity =
-        Number(quantityInput.value);
-
-
-    if (quantity <= 0 || isNaN(quantity)) {
-
-        alert(
-            "Please enter a valid quantity."
-        );
-
-        return;
-
-    }
-
-
-    const total =
-        selectedProduct.price *
-        quantity;
-
-
-    // Create order ID
-
-    const orderId =
-        "FS" +
-        Date.now()
-            .toString()
-            .slice(-6);
-
-
-    const order = {
-
-        id: orderId,
-
-        product:
-            selectedProduct.name,
-
-        quantity:
-            quantity,
-
-        price:
-            selectedProduct.price,
-
-        total:
-            total,
-
-        date:
-            new Date()
-                .toLocaleString()
-
-    };
-
-
-    orders.push(order);
-
-
-    saveData();
-
-
-    const orderIdElement =
-        document.getElementById(
-            "orderId"
-        );
-
-
-    if (orderIdElement) {
-
-        orderIdElement.innerText =
-            orderId;
-
-    }
-
-
-    showScreen("orderSuccess");
-
-}
-
-
-// ==========================================
-// SUCCESS MESSAGE
-// ==========================================
-
-function showMessage(message) {
-
-    alert(message);
-
-}
-
-
-// ==========================================
-// SIMPLE SECURITY
-// ==========================================
+// --------------------------------------------
+// SECURITY
+// --------------------------------------------
 
 function escapeHTML(text) {
 
     const div =
         document.createElement("div");
 
-    div.innerText =
-        text;
+    div.innerText = text;
 
     return div.innerHTML;
 
 }
 
 
-// ==========================================
-// INITIALIZE APP
-// ==========================================
+// --------------------------------------------
+// START
+// --------------------------------------------
 
 document.addEventListener(
     "DOMContentLoaded",
-    function () {
+    function() {
 
         updateDashboard();
 
         console.log(
-            "🌱 FARMSYNC initialized successfully"
+            "🌱 FARMSYNC is ready!"
         );
 
     }
