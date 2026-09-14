@@ -2,17 +2,25 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>FARMSYNC - Farm to Family</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
+
 <div class="app">
+
 
     <!-- ================= HOME ================= -->
 
@@ -20,47 +28,71 @@
 
         <div class="hero">
 
-            <div class="logo">🌱</div>
+            <div class="logo">
+                🌱
+            </div>
 
-            <h1>FARMSYNC</h1>
+            <h1>
+                FARMSYNC
+            </h1>
 
-            <p>Farm to Family</p>
+            <p>
+                Farm to Family
+            </p>
 
             <p class="tagline">
-                Connecting Farmers Directly with Consumers
+                Connecting Farmers Directly
+                with Consumers
             </p>
 
         </div>
 
+
         <div class="role-box">
 
-            <button class="primary"
-                    onclick="openFarmer()">
+            <button
+                class="primary"
+                onclick="openFarmer()">
+
                 👨‍🌾 Continue as Farmer
+
             </button>
 
-            <button class="secondary"
-                    onclick="openConsumer()">
+
+            <button
+                class="secondary"
+                onclick="openConsumer()">
+
                 🛒 Continue as Consumer
+
             </button>
 
         </div>
+
 
         <div class="features">
 
             <div>
                 🚜
-                <span>Direct Selling</span>
+                <span>
+                    Direct Selling
+                </span>
             </div>
+
 
             <div>
                 💰
-                <span>Fair Price</span>
+                <span>
+                    Fair Price
+                </span>
             </div>
+
 
             <div>
                 👥
-                <span>Power Pool</span>
+                <span>
+                    Power Pool
+                </span>
             </div>
 
         </div>
@@ -68,25 +100,33 @@
     </section>
 
 
-    <!-- ================= FARMER DASHBOARD ================= -->
+
+    <!-- ================= FARMER ================= -->
 
     <section id="farmer" class="screen">
 
         <div class="topbar">
 
-            <button onclick="goHome()">←</button>
+            <button onclick="goHome()">
+                ←
+            </button>
 
-            <h2>Farmer Dashboard</h2>
+            <h2>
+                Farmer Dashboard
+            </h2>
 
         </div>
 
 
         <div class="welcome">
 
-            <h3>Welcome Farmer 👋</h3>
+            <h3>
+                Welcome Farmer 👋
+            </h3>
 
             <p>
-                Manage your produce and get better prices.
+                Manage your produce and
+                get better prices.
             </p>
 
         </div>
@@ -96,9 +136,13 @@
 
             <div class="stat-card">
 
-                <span>📦</span>
+                <span>
+                    📦
+                </span>
 
-                <small>My Produce</small>
+                <small>
+                    My Produce
+                </small>
 
                 <b id="myQuantity">
                     100 kg
@@ -109,9 +153,13 @@
 
             <div class="stat-card">
 
-                <span>💰</span>
+                <span>
+                    💰
+                </span>
 
-                <small>Expected</small>
+                <small>
+                    Expected
+                </small>
 
                 <b id="farmerEarnings">
                     ₹2,700
@@ -124,64 +172,94 @@
 
         <div class="menu-grid">
 
+
             <button onclick="openAddProduce()">
 
-                <span>➕</span>
+                <span>
+                    ➕
+                </span>
 
-                <b>Add Produce</b>
+                <b>
+                    Add Produce
+                </b>
 
-                <small>List your crop</small>
+                <small>
+                    List your crop
+                </small>
 
             </button>
 
 
             <button onclick="openMyProduce()">
 
-                <span>📦</span>
+                <span>
+                    📦
+                </span>
 
-                <b>My Produce</b>
+                <b>
+                    My Produce
+                </b>
 
-                <small>View listed crops</small>
+                <small>
+                    View listed crops
+                </small>
 
             </button>
 
 
             <button onclick="openDecision()">
 
-                <span>🧠</span>
+                <span>
+                    🧠
+                </span>
 
-                <b>Smart Sell / Hold</b>
+                <b>
+                    Smart Sell / Hold
+                </b>
 
-                <small>Better price decision</small>
+                <small>
+                    Better price decision
+                </small>
 
             </button>
 
 
             <button onclick="openPool()">
 
-                <span>👥</span>
+                <span>
+                    👥
+                </span>
 
-                <b>Farmer Power Pool</b>
+                <b>
+                    Farmer Power Pool
+                </b>
 
-                <small>Combine produce</small>
+                <small>
+                    Combine produce
+                </small>
 
             </button>
+
 
         </div>
 
 
         <div class="info-card">
 
-            <h3>💡 FARMSYNC Idea</h3>
+            <h3>
+                💡 FARMSYNC Idea
+            </h3>
 
             <p>
-                Sell directly to consumers and reduce
-                unnecessary intermediaries.
+                Sell directly to consumers
+                and reduce unnecessary
+                intermediaries.
             </p>
 
         </div>
 
     </section>
+
 
 
     <!-- ================= ADD PRODUCE ================= -->
@@ -190,16 +268,23 @@
 
         <div class="topbar">
 
-            <button onclick="openFarmer()">←</button>
+            <button onclick="openFarmer()">
+                ←
+            </button>
 
-            <h2>Add Produce</h2>
+            <h2>
+                Add Produce
+            </h2>
 
         </div>
 
 
         <div class="form-card">
 
-            <label>🌱 Crop Name</label>
+
+            <label>
+                🌱 Crop Name
+            </label>
 
             <input
                 id="cropName"
@@ -207,7 +292,9 @@
                 placeholder="Example: Tomato">
 
 
-            <label>⚖️ Quantity (kg)</label>
+            <label>
+                ⚖️ Quantity (kg)
+            </label>
 
             <input
                 id="quantity"
@@ -215,7 +302,9 @@
                 placeholder="Example: 100">
 
 
-            <label>💰 Expected Price (₹/kg)</label>
+            <label>
+                💰 Expected Price (₹/kg)
+            </label>
 
             <input
                 id="price"
@@ -223,15 +312,18 @@
                 placeholder="Example: 27">
 
 
-            <label>📅 Harvest Status</label>
+            <label>
+                📅 Harvest Status
+            </label>
 
             <input
                 id="harvest"
                 placeholder="Example: Ready in 2 days">
 
 
-            <button class="primary"
-                    onclick="addProduce()">
+            <button
+                class="primary"
+                onclick="addProduce()">
 
                 📤 LIST MY PRODUCE
 
@@ -240,9 +332,11 @@
 
             <div id="addMessage"></div>
 
+
         </div>
 
     </section>
+
 
 
     <!-- ================= MY PRODUCE ================= -->
@@ -251,9 +345,13 @@
 
         <div class="topbar">
 
-            <button onclick="openFarmer()">←</button>
+            <button onclick="openFarmer()">
+                ←
+            </button>
 
-            <h2>My Produce</h2>
+            <h2>
+                My Produce
+            </h2>
 
         </div>
 
@@ -263,11 +361,14 @@
 
         <div class="info-card">
 
-            <h3>📈 Why FARMSYNC?</h3>
+            <h3>
+                📈 Why FARMSYNC?
+            </h3>
 
             <p>
-                Farmers can show their produce directly
-                instead of depending completely on
+                Farmers can show their
+                produce directly instead of
+                depending completely on
                 multiple intermediaries.
             </p>
 
@@ -276,24 +377,31 @@
     </section>
 
 
-    <!-- ================= SELL / HOLD ================= -->
+
+    <!-- ================= SMART SELL / HOLD ================= -->
 
     <section id="decision" class="screen">
 
         <div class="topbar">
 
-            <button onclick="openFarmer()">←</button>
+            <button onclick="openFarmer()">
+                ←
+            </button>
 
-            <h2>Smart Sell / Hold</h2>
+            <h2>
+                Smart Sell / Hold
+            </h2>
 
         </div>
 
 
         <div class="decision-card">
 
+
             <div class="big-icon">
                 🍅
             </div>
+
 
             <h2 id="decisionCrop">
                 Tomato
@@ -302,22 +410,32 @@
 
             <div class="price-row">
 
+
                 <div>
 
-                    <small>Current Price</small>
+                    <small>
+                        Current Price
+                    </small>
 
-                    <b>₹20/kg</b>
+                    <b>
+                        ₹20/kg
+                    </b>
 
                 </div>
 
 
                 <div>
 
-                    <small>Expected Price</small>
+                    <small>
+                        Expected Price
+                    </small>
 
-                    <b>₹25/kg</b>
+                    <b>
+                        ₹25/kg
+                    </b>
 
                 </div>
+
 
             </div>
 
@@ -328,11 +446,14 @@
 
                 <div>
 
-                    <b>Recommendation: HOLD</b>
+                    <b>
+                        Recommendation: HOLD
+                    </b>
 
                     <p>
-                        Better price may be available
-                        in the next 3 days.
+                        Better price may be
+                        available in the next
+                        3 days.
                     </p>
 
                 </div>
@@ -340,24 +461,28 @@
             </div>
 
 
-            <button class="primary"
-                    onclick="holdProduce()">
+            <button
+                class="primary"
+                onclick="holdProduce()">
 
                 🟢 HOLD FOR 3 DAYS
 
             </button>
 
 
-            <button class="secondary"
-                    onclick="sellNow()">
+            <button
+                class="secondary"
+                onclick="sellNow()">
 
                 💰 SELL NOW
 
             </button>
 
+
         </div>
 
     </section>
+
 
 
     <!-- ================= POWER POOL ================= -->
@@ -366,22 +491,31 @@
 
         <div class="topbar">
 
-            <button onclick="openFarmer()">←</button>
+            <button onclick="openFarmer()">
+                ←
+            </button>
 
-            <h2>Farmer Power Pool</h2>
+            <h2>
+                Farmer Power Pool
+            </h2>
 
         </div>
 
 
         <div class="pool-banner">
 
-            👥
+            <div style="font-size:45px;">
+                👥
+            </div>
 
-            <h2>Sell Together</h2>
+            <h2>
+                Sell Together
+            </h2>
 
             <p>
-                Combine produce with nearby farmers
-                to meet large consumer demand.
+                Combine produce with nearby
+                farmers to meet large
+                consumer demand.
             </p>
 
         </div>
@@ -389,9 +523,12 @@
 
         <div class="pool-stats">
 
+
             <div>
 
-                <small>Your Produce</small>
+                <small>
+                    Your Produce
+                </small>
 
                 <b id="yourPool">
                     100 kg
@@ -402,16 +539,22 @@
 
             <div>
 
-                <small>Nearby Farmers</small>
+                <small>
+                    Nearby Farmers
+                </small>
 
-                <b>400 kg</b>
+                <b>
+                    400 kg
+                </b>
 
             </div>
 
 
             <div>
 
-                <small>Total Pool</small>
+                <small>
+                    Total Pool
+                </small>
 
                 <b id="totalPool">
                     500 kg
@@ -422,17 +565,23 @@
 
             <div>
 
-                <small>Demand</small>
+                <small>
+                    Consumer Demand
+                </small>
 
-                <b>450 kg</b>
+                <b>
+                    450 kg
+                </b>
 
             </div>
+
 
         </div>
 
 
-        <button class="primary"
-                onclick="joinPool()">
+        <button
+            class="primary"
+            onclick="joinPool()">
 
             👥 JOIN POWER POOL
 
@@ -441,165 +590,303 @@
 
         <div id="poolStatus"></div>
 
+
     </section>
+
 
 
     <!-- ================= CONSUMER ================= -->
 
     <section id="consumer" class="screen">
 
+
         <div class="topbar">
 
-            <button onclick="goHome()">←</button>
+            <button onclick="goHome()">
+                ←
+            </button>
 
-            <h2>Fresh From Farmers</h2>
+            <h2>
+                Fresh From Farmers
+            </h2>
 
         </div>
 
+
+        <!-- BANNER -->
 
         <div class="consumer-banner">
 
-            🥬
+            <div style="font-size:45px;">
+                🌾
+            </div>
 
-            <h2>Fresh & Direct</h2>
+            <h2>
+                Farm to Family
+            </h2>
 
             <p>
-                Buy directly from farmers.
+                Buy fresh produce directly
+                from farmers.
+            </p>
+
+            <p style="margin-top:8px;">
+                🚫 No unnecessary middlemen
             </p>
 
         </div>
+
 
 
         <!-- TOMATO -->
 
         <div class="product-card">
 
+
             <div class="product-image">
                 🍅
             </div>
 
+
             <div class="product-info">
 
-                <h3>Tomato</h3>
+                <h3>
+                    Tomato
+                </h3>
 
                 <p>
-                    👨‍🌾 Direct from Farmer
+                    👨‍🌾 Farmer: Arun
                 </p>
 
-                <b>₹30 / kg</b>
+                <p>
+                    📍 Karimangalam
+                </p>
+
+                <p>
+                    ⚖️ 100 kg available
+                </p>
+
+                <b>
+                    ₹30 / kg
+                </b>
+
+                <p>
+                    🏪 Market: ₹38/kg
+                </p>
+
+                <p>
+                    💚 You save ₹8/kg
+                </p>
 
             </div>
 
-            <button onclick="buy('Tomato',30)">
+
+            <button
+                onclick="buy('Tomato',30)">
 
                 BUY
 
             </button>
 
+
         </div>
+
 
 
         <!-- ONION -->
 
         <div class="product-card">
 
+
             <div class="product-image">
                 🧅
             </div>
 
+
             <div class="product-info">
 
-                <h3>Onion</h3>
+                <h3>
+                    Onion
+                </h3>
 
                 <p>
-                    👨‍🌾 Direct from Farmer
+                    👨‍🌾 Farmer: Kumar
                 </p>
 
-                <b>₹32 / kg</b>
+                <p>
+                    📍 Dharmapuri
+                </p>
+
+                <p>
+                    ⚖️ 200 kg available
+                </p>
+
+                <b>
+                    ₹32 / kg
+                </b>
+
+                <p>
+                    🏪 Market: ₹40/kg
+                </p>
+
+                <p>
+                    💚 You save ₹8/kg
+                </p>
 
             </div>
 
-            <button onclick="buy('Onion',32)">
+
+            <button
+                onclick="buy('Onion',32)">
 
                 BUY
 
             </button>
 
+
         </div>
+
 
 
         <!-- CARROT -->
 
         <div class="product-card">
 
+
             <div class="product-image">
                 🥕
-
             </div>
+
 
             <div class="product-info">
 
-                <h3>Carrot</h3>
+                <h3>
+                    Carrot
+                </h3>
 
                 <p>
-                    👨‍🌾 Direct from Farmer
+                    👨‍🌾 Farmer: Selvam
                 </p>
 
-                <b>₹40 / kg</b>
+                <p>
+                    📍 Krishnagiri
+                </p>
+
+                <p>
+                    ⚖️ 150 kg available
+                </p>
+
+                <b>
+                    ₹40 / kg
+                </b>
+
+                <p>
+                    🏪 Market: ₹48/kg
+                </p>
+
+                <p>
+                    💚 You save ₹8/kg
+                </p>
 
             </div>
 
-            <button onclick="buy('Carrot',40)">
+
+            <button
+                onclick="buy('Carrot',40)">
 
                 BUY
 
             </button>
 
+
         </div>
 
+
+
+        <!-- DIRECT FARM MODEL -->
+
+        <div class="info-card">
+
+            <h3>
+                🔗 Direct Farm Connection
+            </h3>
+
+            <p>
+                Farmer → FARMSYNC → Consumer
+            </p>
+
+            <p style="margin-top:8px;">
+                Farmers get a better price
+                while consumers get fresh
+                produce at a reasonable price.
+            </p>
+
+        </div>
+
+
     </section>
+
 
 
     <!-- ================= ORDER ================= -->
 
     <section id="order" class="screen">
 
+
         <div class="topbar">
 
-            <button onclick="openConsumer()">←</button>
+            <button onclick="openConsumer()">
+                ←
+            </button>
 
-            <h2>Place Order</h2>
+            <h2>
+                Place Order
+            </h2>
 
         </div>
 
 
         <div class="order-card">
 
+
             <div class="big-icon">
                 🛒
             </div>
 
-            <h2>Order Summary</h2>
+
+            <h2>
+                Order Summary
+            </h2>
 
 
             <p>
+
                 Product:
+
                 <b id="orderProduct">
                     Tomato
                 </b>
+
             </p>
 
 
             <p>
+
                 Price:
+
                 <b id="orderPrice">
                     ₹30
                 </b>
+
                 / kg
+
             </p>
 
 
-            <label>Quantity</label>
+            <label>
+                Quantity
+            </label>
+
 
             <input
                 id="orderQuantity"
@@ -608,59 +895,77 @@
                 min="1">
 
 
-            <button class="primary"
-                    onclick="confirmOrder()">
+            <button
+                class="primary"
+                onclick="confirmOrder()">
 
                 ✅ CONFIRM ORDER
 
             </button>
 
+
         </div>
 
+
     </section>
+
 
 
     <!-- ================= ORDER SUCCESS ================= -->
 
     <section id="orderSuccess" class="screen">
 
+
         <div class="success-screen">
+
 
             <div class="success-icon">
                 ✅
             </div>
 
-            <h1>Order Confirmed!</h1>
+
+            <h1>
+                Order Confirmed!
+            </h1>
+
 
             <p>
-                Your produce order has been placed
-                successfully.
+                Your produce order has been
+                placed successfully.
             </p>
+
 
             <div class="order-number">
 
                 Order ID:
+
                 <b id="orderId">
                     FS1001
                 </b>
 
             </div>
 
-            <button class="primary"
-                    onclick="openConsumer()">
+
+            <button
+                class="primary"
+                onclick="openConsumer()">
 
                 🛒 Continue Shopping
 
             </button>
 
-            <button class="secondary"
-                    onclick="goHome()">
+
+            <button
+                class="secondary"
+                onclick="goHome()">
 
                 🏠 Home
 
             </button>
 
+
         </div>
+
 
     </section>
 
@@ -669,6 +974,7 @@
 
 
 <script src="script.js"></script>
+
 
 </body>
 
