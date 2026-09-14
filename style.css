@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #eaf2ea;
+    background: #e8f1e8;
     color: #18351f;
 }
 
@@ -15,7 +15,7 @@ body {
     max-width: 480px;
     min-height: 100vh;
     margin: auto;
-    background: white;
+    background: #ffffff;
     padding: 18px;
 }
 
@@ -28,46 +28,43 @@ body {
     display: block;
 }
 
-/* HOME */
+
+/* ================= HOME ================= */
 
 .hero {
     text-align: center;
-    padding: 55px 10px 30px;
+    padding: 55px 10px 35px;
 }
 
 .logo {
     font-size: 70px;
+    margin-bottom: 10px;
 }
 
 .hero h1 {
-    font-size: 34px;
-    margin: 8px 0;
+    font-size: 36px;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
 }
 
 .hero p {
     font-size: 20px;
-    margin-bottom: 10px;
+    color: #2e7d32;
+    font-weight: bold;
 }
 
-.hero span {
-    color: #68736b;
+.hero .tagline {
     font-size: 14px;
-}
-
-.login-card {
-    background: #f4f8f3;
-    padding: 25px;
-    border-radius: 22px;
-    margin-bottom: 18px;
-}
-
-.login-card h2 {
-    margin-bottom: 8px;
-}
-
-.login-card p {
     color: #68736b;
-    margin-bottom: 18px;
+    font-weight: normal;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.role-box {
+    background: #f3f8f2;
+    padding: 22px;
+    border-radius: 22px;
 }
 
 button {
@@ -76,505 +73,515 @@ button {
     border-radius: 14px;
     padding: 15px;
     margin: 7px 0;
-    background: #2e7d32;
-    color: white;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 button:active {
-    transform: scale(.98);
+    transform: scale(0.97);
 }
 
-button.secondary {
+.primary {
+    background: #2e7d32;
+    color: white;
+}
+
+.secondary {
     background: #e5eee5;
     color: #28602d;
 }
 
-button.outline {
-    background: white;
-    color: #2e7d32;
-    border: 2px solid #2e7d32;
+.features {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-.problem-box {
-    padding: 20px;
-    background: #edf7ed;
-    border-radius: 18px;
-    line-height: 1.5;
+.features div {
+    flex: 1;
+    background: #f7faf6;
+    border: 1px solid #e1e9df;
+    padding: 15px 7px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 25px;
 }
 
-.problem-box p {
-    margin-top: 8px;
-    color: #59655b;
+.features span {
+    display: block;
+    font-size: 11px;
+    color: #68736b;
+    margin-top: 6px;
 }
 
-/* HEADER */
 
-header {
+/* ================= TOP BAR ================= */
+
+.topbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 12px 0 25px;
+    gap: 12px;
+    padding: 10px 0 22px;
 }
 
-header h2 {
-    margin-top: 5px;
-}
-
-header small {
-    color: #68736b;
-}
-
-.icon-btn,
-.back-btn {
-    width: 45px;
-    height: 45px;
+.topbar button {
+    width: 44px;
+    height: 44px;
     padding: 0;
     margin: 0;
-    background: #e8f0e8;
-    color: #245b2a;
+    background: #e8f1e8;
+    color: #245c2a;
+    font-size: 22px;
 }
 
-/* EARNINGS */
+.topbar h2 {
+    font-size: 21px;
+}
 
-.earnings-card {
-    background: #2e7d32;
-    color: white;
-    padding: 25px;
-    border-radius: 22px;
+
+/* ================= FARMER ================= */
+
+.welcome {
+    background: #edf7ed;
+    padding: 20px;
+    border-radius: 18px;
     margin-bottom: 15px;
 }
 
-.earnings-card h1 {
-    font-size: 36px;
-    margin: 8px 0;
+.welcome h3 {
+    margin-bottom: 7px;
 }
 
-.earnings-card p {
+.welcome p {
+    color: #68736b;
     font-size: 14px;
 }
-
-/* STATS */
 
 .stats {
     display: flex;
     gap: 12px;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
-.stats > div {
+.stat-card {
     flex: 1;
-    padding: 18px;
-    background: #f5f8f4;
+    background: #f6f9f5;
     border-radius: 17px;
-}
-
-.stats b {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 7px;
-}
-
-.stats small {
-    color: #68736b;
-}
-
-/* MENU */
-
-.menu-card {
-    display: flex;
-    align-items: center;
-    gap: 13px;
     padding: 18px;
-    margin: 11px 0;
-    background: #f7faf6;
-    border: 1px solid #e2e9e1;
-    border-radius: 17px;
-    cursor: pointer;
 }
 
-.menu-card > span {
-    font-size: 29px;
-}
-
-.menu-card div {
-    flex: 1;
-}
-
-.menu-card p {
-    margin-top: 5px;
-    color: #68736b;
-    font-size: 13px;
-}
-
-.menu-card strong {
+.stat-card span {
     font-size: 25px;
-    color: #7b877c;
 }
 
-/* FORM */
-
-.back-btn {
-    margin-right: 10px;
+.stat-card small {
+    display: block;
+    color: #68736b;
+    margin: 7px 0;
 }
+
+.stat-card b {
+    font-size: 21px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.menu-grid button {
+    background: #f7faf6;
+    color: #18351f;
+    border: 1px solid #e0e8df;
+    text-align: left;
+    min-height: 145px;
+    padding: 17px;
+    margin: 0;
+}
+
+.menu-grid button span {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.menu-grid button b {
+    display: block;
+    font-size: 14px;
+}
+
+.menu-grid button small {
+    display: block;
+    color: #68736b;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+.info-card {
+    background: #edf7ed;
+    padding: 19px;
+    border-radius: 17px;
+    margin-top: 18px;
+}
+
+.info-card h3 {
+    margin-bottom: 8px;
+}
+
+.info-card p {
+    color: #59655b;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+
+/* ================= FORM ================= */
 
 .form-card {
     background: #f5f9f4;
-    padding: 22px;
+    padding: 21px;
     border-radius: 20px;
 }
 
 .form-card label {
     display: block;
     font-weight: bold;
-    margin: 12px 0 5px;
+    font-size: 14px;
+    margin: 14px 0 6px;
 }
 
-input,
-select {
+.form-card input {
     width: 100%;
-    padding: 15px;
-    border: 1px solid #cdd8cd;
+    padding: 14px;
+    border: 1px solid #ccd8cb;
     border-radius: 12px;
     font-size: 16px;
+    outline: none;
     background: white;
 }
 
-/* PRODUCE */
+.form-card input:focus {
+    border-color: #2e7d32;
+}
+
+.form-card button {
+    margin-top: 20px;
+}
+
+
+/* ================= PRODUCE ================= */
 
 .produce-card {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 18px;
-    margin: 12px 0;
+    gap: 13px;
     background: #f6faf5;
+    border: 1px solid #e1e9df;
     border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 12px;
 }
 
 .crop-icon {
     width: 60px;
     height: 60px;
+    min-width: 60px;
+    border-radius: 16px;
     background: #e8f4e6;
-    border-radius: 15px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 35px;
+    align-items: center;
+    font-size: 34px;
 }
 
-.produce-card div:nth-child(2) {
+.produce-card > div:nth-child(2) {
     flex: 1;
 }
 
+.produce-card h3 {
+    margin-bottom: 5px;
+}
+
 .produce-card p {
-    margin: 5px 0;
     color: #68736b;
+    font-size: 12px;
+    margin: 4px 0;
+}
+
+.produce-card b {
+    color: #28632d;
 }
 
 .available {
-    font-size: 10px;
-    font-weight: bold;
     background: #dff1df;
     color: #26702c;
-    padding: 6px;
+    padding: 6px 7px;
     border-radius: 8px;
+    font-size: 9px;
+    font-weight: bold;
 }
 
-/* DECISION */
+
+/* ================= DECISION ================= */
 
 .decision-card {
-    text-align: center;
-    padding: 25px;
-    background: #f5f9f4;
-    border-radius: 20px;
+    background: #f6faf5;
+    border-radius: 21px;
+    padding: 22px;
 }
 
 .big-icon {
+    text-align: center;
     font-size: 65px;
+    margin-bottom: 10px;
 }
 
-.decision-card h1 {
-    margin: 8px 0 15px;
+.decision-card > h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.decision-card h2 {
-    margin: 7px 0;
+.price-row {
+    display: flex;
+    gap: 10px;
 }
 
-.decision-card p {
+.price-row div {
+    flex: 1;
+    background: white;
+    border-radius: 14px;
+    padding: 15px;
+    text-align: center;
+}
+
+.price-row small {
+    display: block;
     color: #68736b;
-    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
-.decision-card hr {
-    border: none;
-    border-top: 1px solid #d8e0d7;
-    margin: 18px 0;
+.price-row b {
+    font-size: 19px;
 }
 
 .recommendation {
-    background: #e9f7e8;
-    padding: 20px;
-    border-radius: 17px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #e7f6e5;
+    padding: 17px;
+    border-radius: 15px;
     margin: 15px 0;
 }
 
-.recommendation b {
-    color: #28702e;
-}
-
 .recommendation p {
-    margin: 8px 0;
     color: #59655b;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 5px;
 }
 
-.recommendation strong {
-    color: #245f29;
-}
 
-/* POOL */
+/* ================= POWER POOL ================= */
 
-.pool-hero {
+.pool-banner {
     text-align: center;
     background: #edf7ed;
     padding: 25px;
     border-radius: 20px;
 }
 
-.pool-hero div {
-    font-size: 50px;
+.pool-banner:first-letter {
+    font-size: 45px;
 }
 
-.pool-hero h2 {
-    margin: 10px 0;
+.pool-banner h2 {
+    margin: 8px 0;
 }
 
-.pool-hero p {
+.pool-banner p {
     color: #68736b;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
-.pool-grid {
+.pool-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 11px;
     margin: 15px 0;
 }
 
-.pool-grid div {
-    background: #f5f9f4;
-    padding: 18px;
+.pool-stats div {
+    background: #f6f9f5;
+    padding: 17px;
     border-radius: 15px;
 }
 
-.pool-grid small {
+.pool-stats small {
     display: block;
     color: #68736b;
     margin-bottom: 7px;
 }
 
-.pool-grid b {
+.pool-stats b {
     font-size: 20px;
 }
 
-.match-card {
-    padding: 18px;
-    background: #fff8df;
-    border-radius: 16px;
+
+/* ================= CONSUMER ================= */
+
+.consumer-banner {
+    background: #edf7ed;
+    padding: 20px;
+    border-radius: 18px;
     margin-bottom: 15px;
 }
 
-.match-card p {
-    margin-top: 8px;
-    color: #69634e;
+.consumer-banner h2 {
+    margin: 8px 0;
 }
 
-/* DEMAND */
-
-.demand-card {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #f6f9f5;
-    padding: 17px;
-    border-radius: 17px;
-    margin: 12px 0;
-}
-
-.demand-card > span {
-    font-size: 35px;
-}
-
-.demand-card div {
-    flex: 1;
-}
-
-.demand-card p {
+.consumer-banner p {
     color: #68736b;
-    margin: 5px 0;
-}
-
-.high,
-.medium {
-    padding: 6px 8px;
-    border-radius: 8px;
-    font-size: 10px;
-}
-
-.high {
-    background: #dff1df;
-    color: #28702e;
-}
-
-.medium {
-    background: #fff0c8;
-    color: #80621a;
-}
-
-.insight {
-    margin-top: 18px;
-    padding: 20px;
-    background: #edf7ed;
-    border-radius: 17px;
-}
-
-.insight p {
-    margin-top: 8px;
-    color: #59655b;
-    line-height: 1.5;
-}
-
-/* CONSUMER */
-
-.search-box {
-    padding: 15px;
-    background: #f3f6f2;
-    border-radius: 13px;
-    color: #68736b;
-    margin-bottom: 20px;
 }
 
 .product-card {
     display: flex;
-    gap: 15px;
-    padding: 15px;
+    align-items: center;
+    gap: 12px;
     background: #f6faf5;
+    border: 1px solid #e1e9df;
     border-radius: 18px;
+    padding: 13px;
     margin: 12px 0;
 }
 
-.product-img {
-    width: 90px;
-    height: 90px;
+.product-image {
+    width: 70px;
+    height: 70px;
+    min-width: 70px;
     background: #e8f4e6;
-    border-radius: 16px;
+    border-radius: 15px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 48px;
+    justify-content: center;
+    font-size: 40px;
 }
 
 .product-info {
     flex: 1;
 }
 
+.product-info h3 {
+    margin-bottom: 4px;
+}
+
 .product-info p {
+    font-size: 11px;
     color: #68736b;
-    font-size: 13px;
-    margin: 5px 0;
+    margin-bottom: 6px;
 }
 
-.product-info h2 {
-    margin: 8px 0;
-}
-
-.product-info button {
-    padding: 10px;
-    margin: 0;
-    font-size: 13px;
-}
-
-.price-box {
-    background: #f5f9f4;
-    padding: 20px;
-    border-radius: 18px;
-    margin-top: 20px;
-}
-
-.price-box > p {
-    color: #68736b;
-    margin: 7px 0 15px;
-}
-
-.price-box div {
-    display: flex;
-    justify-content: space-between;
-    padding: 9px 0;
-}
-
-.price-box hr {
-    border: none;
-    border-top: 1px solid #d7dfd6;
-}
-
-.price-box .total {
+.product-info b {
     font-size: 17px;
-    font-weight: bold;
+    color: #28632d;
 }
 
-/* ORDER */
-
-.order-success {
-    text-align: center;
-    padding: 55px 10px 30px;
+.product-card button {
+    width: 60px;
+    padding: 10px 5px;
+    margin: 0;
+    font-size: 11px;
 }
 
-.success-icon {
-    font-size: 70px;
-    margin-bottom: 15px;
-}
 
-.order-success p {
-    color: #68736b;
-    margin-top: 10px;
-}
+/* ================= ORDER ================= */
 
 .order-card {
     background: #f5f9f4;
-    padding: 22px;
+    padding: 23px;
     border-radius: 20px;
+}
+
+.order-card .big-icon {
+    font-size: 55px;
+}
+
+.order-card h2 {
+    text-align: center;
     margin-bottom: 20px;
 }
 
 .order-card p {
+    background: white;
+    padding: 13px;
+    border-radius: 11px;
+    margin: 8px 0;
+}
+
+.order-card label {
+    display: block;
+    font-weight: bold;
+    margin: 15px 0 6px;
+}
+
+.order-card input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccd8cb;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+
+/* ================= SUCCESS ================= */
+
+.success-screen {
+    text-align: center;
+    padding-top: 80px;
+}
+
+.success-icon {
+    font-size: 75px;
+    margin-bottom: 20px;
+}
+
+.success-screen h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.success-screen > p {
     color: #68736b;
-    margin-top: 12px;
-}
-
-.order-card h3,
-.order-card h2 {
-    margin-top: 5px;
-}
-
-.order-card hr {
-    border: none;
-    border-top: 1px solid #d7dfd6;
-    margin: 18px 0;
-}
-
-/* SUCCESS MESSAGE */
-
-.success-message {
-    background: #e5f5e4;
-    color: #24642a;
-    padding: 17px;
-    border-radius: 15px;
-    margin-top: 15px;
     line-height: 1.5;
 }
 
-/* MOBILE */
+.order-number {
+    background: #edf7ed;
+    padding: 17px;
+    border-radius: 15px;
+    margin: 25px 0;
+}
+
+
+/* ================= SUCCESS MESSAGE ================= */
+
+.success-message {
+    background: #e6f5e4;
+    color: #245e2a;
+    padding: 17px;
+    border-radius: 15px;
+    margin-top: 15px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 380px) {
 
@@ -582,15 +589,16 @@ select {
         padding: 14px;
     }
 
-    .stats {
-        gap: 7px;
-    }
-
-    .stats > div {
-        padding: 14px;
-    }
-
-    .pool-grid {
+    .menu-grid {
         grid-template-columns: 1fr;
     }
+
+    .features div {
+        font-size: 21px;
+    }
+
+    .features span {
+        font-size: 10px;
+    }
+
 }
