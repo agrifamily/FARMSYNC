@@ -1,602 +1,337 @@
-/* =========================================================
+/* =====================================================
    FARMSYNC
-   Farm to Family
    Firebase NOT required
-   Works directly on GitHub Pages
-========================================================= */
+   GitHub Pages compatible
+===================================================== */
 
 
-/* ================= DATA ================= */
+/* ================= RANDOM DATA ================= */
 
 const farmerNames = [
-  "Arun Kumar",
-  "Suresh",
-  "Karthik",
-  "Ramesh",
-  "Prakash",
-  "Manoj",
-  "Vijay",
-  "Selvam",
-  "Mohan",
-  "Rajesh"
+    "Arun Kumar",
+    "Suresh",
+    "Manoj",
+    "Prakash",
+    "Ravi",
+    "Karthik",
+    "Dinesh",
+    "Vijay",
+    "Selvam",
+    "Mohan"
 ];
-
 
 const consumerNames = [
-  "Ananya",
-  "Priya",
-  "Rahul",
-  "Divya",
-  "Arjun",
-  "Nithya",
-  "Kavin",
-  "Meena",
-  "Harish",
-  "Keerthana"
+    "Ananya",
+    "Priya",
+    "Rahul",
+    "Nithya",
+    "Divya",
+    "Harish",
+    "Keerthana",
+    "Arjun",
+    "Meena",
+    "Akash"
 ];
-
 
 const locations = [
-  "Pollachi",
-  "Erode",
-  "Udumalpet",
-  "Coimbatore",
-  "Tiruppur",
-  "Salem",
-  "Namakkal",
-  "Karur",
-  "Trichy",
-  "Madurai"
+    "Coimbatore",
+    "Pollachi",
+    "Sulur",
+    "Tiruppur",
+    "Erode",
+    "Mettupalayam",
+    "Avinashi",
+    "Udumalpet",
+    "Palladam",
+    "Annur"
 ];
 
-
-const produceData = [
-
-  {
-    name: "Tomato",
-    emoji: "🍅",
-    price: 28,
-    category: "vegetable"
-  },
-
-  {
-    name: "Onion",
-    emoji: "🧅",
-    price: 32,
-    category: "vegetable"
-  },
-
-  {
-    name: "Potato",
-    emoji: "🥔",
-    price: 30,
-    category: "vegetable"
-  },
-
-  {
-    name: "Carrot",
-    emoji: "🥕",
-    price: 42,
-    category: "vegetable"
-  },
-
-  {
-    name: "Banana",
-    emoji: "🍌",
-    price: 35,
-    category: "fruit"
-  },
-
-  {
-    name: "Coconut",
-    emoji: "🥥",
-    price: 38,
-    category: "fruit"
-  },
-
-  {
-    name: "Brinjal",
-    emoji: "🍆",
-    price: 36,
-    category: "vegetable"
-  },
-
-  {
-    name: "Chilli",
-    emoji: "🌶️",
-    price: 48,
-    category: "vegetable"
-  },
-
-  {
-    name: "Lady Finger",
-    emoji: "🥬",
-    price: 40,
-    category: "vegetable"
-  }
-
-];
+const produceEmoji = {
+    Tomato: "🍅",
+    Onion: "🧅",
+    Potato: "🥔",
+    Carrot: "🥕",
+    Banana: "🍌",
+    Mango: "🥭",
+    Brinjal: "🍆",
+    Cabbage: "🥬"
+};
 
 
-/* ================= STORAGE ================= */
-
-let listings =
-  JSON.parse(localStorage.getItem("farmsyncListings")) || [];
-
-let requests =
-  JSON.parse(localStorage.getItem("farmsyncRequests")) || [];
-
-
-/* ================= CURRENT USER ================= */
-
-let currentFarmer = null;
-let currentConsumer = null;
-
-let selectedProduct = null;
-
-let currentFilter = "all";
-
-
-/* ================= RANDOM FUNCTIONS ================= */
+/* ================= RANDOM FUNCTION ================= */
 
 function randomItem(array) {
-
-  return array[
-    Math.floor(Math.random() * array.length)
-  ];
-
+    return array[Math.floor(Math.random() * array.length)];
 }
 
 
-function randomNumber(min, max) {
+/* ================= DEMO DATA ================= */
 
-  return Math.floor(
-    Math.random() * (max - min + 1)
-  ) + min;
+let listings = JSON.parse(
+    localStorage.getItem("farmsyncListings")
+) || [
+    {
+        farmer: "Arun Kumar",
+        location: "Coimbatore",
+        produce: "Tomato",
+        quantity: 100,
+        price: 28
+    },
 
-}
+    {
+        farmer: "Suresh",
+        location: "Pollachi",
+        produce: "Onion",
+        quantity: 80,
+        price: 34
+    },
 
-
-function generateId() {
-
-  return Date.now().toString() +
-    Math.random().toString(36).substring(2);
-
-}
-
-
-/* ================= INIT ================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  setTimeout(() => {
-
-    document
-      .getElementById("splashScreen")
-      .classList.add("hidden");
-
-    document
-      .getElementById("homeScreen")
-      .classList.remove("hidden");
-
-  }, 1800);
+    {
+        farmer: "Prakash",
+        location: "Tiruppur",
+        produce: "Banana",
+        quantity: 120,
+        price: 42
+    }
+];
 
 
-  /*
-    First-time prototype data.
-    This makes Consumer immediately show farmers.
-  */
+let demands = JSON.parse(
+    localStorage.getItem("farmsyncDemands")
+) || [];
 
-  if (listings.length === 0) {
 
-    createDemoListings();
+/* ================= SPLASH ================= */
 
-  }
+window.addEventListener("load", function () {
+
+    setTimeout(function () {
+
+        const splash = document.getElementById("splash");
+        const app = document.getElementById("app");
+
+        if (splash) {
+            splash.style.display = "none";
+        }
+
+        if (app) {
+            app.style.display = "block";
+        }
+
+        updateStats();
+
+    }, 1200);
 
 });
 
 
-/* ================= DEMO FARMERS ================= */
+/* ================= ROLE OPEN ================= */
 
-function createDemoListings() {
+function openRole(role) {
 
-  const demo = [
-
-    ["Arun Kumar", "Pollachi", "Tomato", 100, 28],
-
-    ["Suresh", "Erode", "Onion", 80, 32],
-
-    ["Karthik", "Udumalpet", "Banana", 120, 35],
-
-    ["Ramesh", "Coimbatore", "Carrot", 65, 42],
-
-    ["Prakash", "Tiruppur", "Potato", 90, 30],
-
-    ["Manoj", "Salem", "Brinjal", 75, 36],
-
-    ["Vijay", "Namakkal", "Chilli", 50, 48],
-
-    ["Selvam", "Karur", "Coconut", 150, 38]
-
-  ];
-
-
-  demo.forEach(item => {
-
-    const [farmer, location, produce, quantity, price] = item;
-
-    const info = produceData.find(
-      p => p.name === produce
-    );
-
-
-    listings.push({
-
-      id: generateId(),
-
-      farmerName: farmer,
-
-      location: location,
-
-      produce: produce,
-
-      emoji: info ? info.emoji : "🌱",
-
-      category: info ? info.category : "vegetable",
-
-      quantity: quantity,
-
-      price: price,
-
-      createdAt: Date.now()
-
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
     });
 
-  });
+    const selected = document.getElementById(role);
 
+    if (selected) {
+        selected.classList.add("active");
+    }
 
-  saveData();
+    if (role === "farmer") {
+        createFarmerProfile();
+        renderFarmerListings();
+    }
 
+    if (role === "consumer") {
+        createConsumerProfile();
+        renderConsumerListings();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-/* ================= SAVE ================= */
+/* ================= HOME ================= */
 
-function saveData() {
+function goHome() {
 
-  localStorage.setItem(
-    "farmsyncListings",
-    JSON.stringify(listings)
-  );
-
-  localStorage.setItem(
-    "farmsyncRequests",
-    JSON.stringify(requests)
-  );
-
-}
-
-
-/* ================= SCREEN NAVIGATION ================= */
-
-function hideAllScreens() {
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(screen => {
-
-      screen.classList.add("hidden");
-
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
     });
 
+    document.getElementById("home").classList.add("active");
+
+    updateStats();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-function showHome() {
+/* ================= FARMER PROFILE ================= */
 
-  hideAllScreens();
+function createFarmerProfile() {
 
-  document
-    .getElementById("homeScreen")
-    .classList.remove("hidden");
+    document.getElementById("farmerName").textContent =
+        randomItem(farmerNames);
 
-}
-
-
-function openFarmer() {
-
-  hideAllScreens();
-
-  document
-    .getElementById("farmerScreen")
-    .classList.remove("hidden");
-
-
-  if (!currentFarmer) {
-
-    currentFarmer = {
-
-      name: randomItem(farmerNames),
-
-      location: randomItem(locations)
-
-    };
-
-  }
-
-
-  document
-    .getElementById("farmerWelcome")
-    .textContent =
-    Welcome, ${currentFarmer.name};
-
-
-  renderFarmerListings();
-
-  renderFarmerRequests();
-
-  updateFarmerStats();
-
-}
-
-
-function openConsumer() {
-
-  hideAllScreens();
-
-  document
-    .getElementById("consumerScreen")
-    .classList.remove("hidden");
-
-
-  generateConsumerProfile();
-
-  renderConsumerListings();
-
-  startMatchingAnimation();
-
+    document.getElementById("farmerLocation").textContent =
+        randomItem(locations);
 }
 
 
 /* ================= CONSUMER PROFILE ================= */
 
-function generateConsumerProfile() {
+function createConsumerProfile() {
 
-  currentConsumer = {
+    document.getElementById("consumerName").textContent =
+        randomItem(consumerNames);
 
-    name: randomItem(consumerNames),
-
-    location: randomItem(locations)
-
-  };
-
-
-  document
-    .getElementById("consumerName")
-    .textContent =
-    currentConsumer.name;
-
-
-  document
-    .getElementById("consumerLocation")
-    .textContent =
-    📍 ${currentConsumer.location};
-
+    document.getElementById("consumerLocation").textContent =
+        randomItem(locations);
 }
 
 
-/* ================= FARMER ADD PRODUCE ================= */
+/* ================= ADD PRODUCE ================= */
 
-document
-  .getElementById("produceForm")
-  .addEventListener("submit", function(event) {
+function addProduce() {
 
-    event.preventDefault();
+    const produce =
+        document.getElementById("produceName").value;
 
+    const quantity =
+        Number(document.getElementById("produceQty").value);
 
-    if (!currentFarmer) {
+    const price =
+        Number(document.getElementById("producePrice").value);
 
-      currentFarmer = {
+    if (!quantity || quantity <= 0) {
 
-        name: randomItem(farmerNames),
+        showToast("Please enter quantity");
 
-        location: randomItem(locations)
+        return;
+    }
 
-      };
+    if (!price || price <= 0) {
 
+        showToast("Please enter price");
+
+        return;
     }
 
 
-    const produceName =
-      document.getElementById("produceName").value;
-
-
-    const quantity =
-      Number(
-        document.getElementById("produceQuantity").value
-      );
-
-
-    const price =
-      Number(
-        document.getElementById("producePrice").value
-      );
-
+    const farmer =
+        document.getElementById("farmerName").textContent;
 
     const location =
-      document.getElementById("farmerLocation").value;
-
-
-    const info =
-      produceData.find(
-        p => p.name === produceName
-      );
+        document.getElementById("farmerLocation").textContent;
 
 
     const newListing = {
 
-      id: generateId(),
+        farmer: farmer,
 
-      farmerName: currentFarmer.name,
+        location: location,
 
-      location: location,
+        produce: produce,
 
-      produce: produceName,
+        quantity: quantity,
 
-      emoji: info ? info.emoji : "🌱",
-
-      category: info ? info.category : "vegetable",
-
-      quantity: quantity,
-
-      price: price,
-
-      createdAt: Date.now()
+        price: price
 
     };
 
 
     listings.unshift(newListing);
 
-    saveData();
+
+    localStorage.setItem(
+        "farmsyncListings",
+        JSON.stringify(listings)
+    );
 
 
-    this.reset();
+    document.getElementById("produceQty").value = "";
+    document.getElementById("producePrice").value = "";
 
 
     renderFarmerListings();
 
-    renderConsumerListings();
-
-    updateFarmerStats();
-
+    updateStats();
 
     showToast(
-      "✓",
-      ${produceName} successfully listed
+        "🌱 Produce listed successfully!"
     );
-
-  });
+}
 
 
 /* ================= FARMER LISTINGS ================= */
 
 function renderFarmerListings() {
 
-  const container =
-    document.getElementById("farmerListings");
+    const container =
+        document.getElementById("farmerListings");
+
+    if (!container) return;
 
 
-  if (!currentFarmer) {
+    if (listings.length === 0) {
 
-    container.innerHTML = "";
+        container.innerHTML = `
+            <div class="produce-card">
+                No produce listed yet.
+            </div>
+        `;
 
-    return;
-
-  }
-
-
-  const myListings =
-    listings.filter(
-      item =>
-        item.farmerName === currentFarmer.name
-    );
+        return;
+    }
 
 
-  if (myListings.length === 0) {
+    container.innerHTML = listings
+        .slice(0, 12)
+        .map(item => {
 
-    container.innerHTML = `
+            return `
 
-      <div class="empty-state">
+            <div class="produce-card">
 
-        <div>🌱</div>
+                <div class="produce-top">
 
-        <strong>No produce listed yet</strong>
+                    <div class="produce-emoji">
+                        ${produceEmoji[item.produce] || "🌱"}
+                    </div>
 
-        <p>Add your first farm produce above.</p>
+                    <div class="price">
+                        ₹${item.price}/kg
+                    </div>
 
-      </div>
+                </div>
 
-    `;
+                <h3>${item.produce}</h3>
 
-    return;
+                <p>
+                    👨‍🌾 ${item.farmer}<br>
+                    📍 ${item.location}<br>
+                    📦 ${item.quantity} kg available
+                </p>
 
-  }
+                <div class="match-small">
+                    ✓ Available for PowerPool matching
+                </div>
 
-
-  container.innerHTML =
-    myListings.map(item => `
-
-      <div class="produce-card">
-
-        <div class="produce-top">
-
-          <div class="produce-image">
-            ${item.emoji}
-          </div>
-
-          <div>
-
-            <div class="produce-name">
-              ${item.produce}
             </div>
 
-            <div class="produce-meta">
-              📍 ${item.location}
-            </div>
+            `;
 
-          </div>
-
-          <div class="price-tag">
-            ₹${item.price}
-          </div>
-
-        </div>
-
-
-        <div class="produce-bottom">
-
-          <div class="quantity">
-            📦 ${item.quantity} Kg available
-          </div>
-
-          <button
-            class="delete-btn"
-            onclick="deleteListing('${item.id}')">
-
-            Delete
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-/* ================= DELETE LISTING ================= */
-
-function deleteListing(id) {
-
-  listings =
-    listings.filter(
-      item => item.id !== id
-    );
-
-
-  saveData();
-
-  renderFarmerListings();
-
-  renderConsumerListings();
-
-  updateFarmerStats();
-
-  showToast("✓", "Listing removed");
-
+        })
+        .join("");
 }
 
 
@@ -604,625 +339,343 @@ function deleteListing(id) {
 
 function renderConsumerListings() {
 
-  const container =
-    document.getElementById("consumerListings");
+    const container =
+        document.getElementById("consumerListings");
+
+    if (!container) return;
 
 
-  const search =
-    (
-      document
-        .getElementById("searchProduce")
-        ?.value || ""
-    )
-    .toLowerCase()
-    .trim();
+    if (listings.length === 0) {
+
+        container.innerHTML = `
+            <div class="produce-card">
+                No farmer produce available.
+            </div>
+        `;
+
+        return;
+    }
 
 
-  let filtered =
-    listings.filter(item => {
+    container.innerHTML = listings
+        .slice(0, 12)
+        .map((item, index) => {
 
-      const matchesSearch =
-        item.produce
-          .toLowerCase()
-          .includes(search) ||
+            return `
 
-        item.farmerName
-          .toLowerCase()
-          .includes(search) ||
+            <div class="produce-card">
 
-        item.location
-          .toLowerCase()
-          .includes(search);
+                <div class="produce-top">
 
+                    <div class="produce-emoji">
+                        ${produceEmoji[item.produce] || "🌱"}
+                    </div>
 
-      const matchesFilter =
-        currentFilter === "all" ||
+                    <div class="price">
+                        ₹${item.price}/kg
+                    </div>
 
-        item.category === currentFilter;
+                </div>
 
+                <h3>${item.produce}</h3>
 
-      return matchesSearch && matchesFilter;
+                <p>
+                    👨‍🌾 ${item.farmer}<br>
+                    📍 ${item.location}<br>
+                    📦 ${item.quantity} kg available
+                </p>
 
-    });
+                <button
+                    class="primary-btn full-btn"
+                    onclick="quickBuy(${index})"
+                >
+                    🛒 Request Produce
+                </button>
 
-
-  document
-    .getElementById("listingCount")
-    .textContent =
-    ${filtered.length} fresh listing${filtered.length !== 1 ? "s" : ""} available;
-
-
-  if (filtered.length === 0) {
-
-    container.innerHTML = `
-
-      <div class="empty-state">
-
-        <div>🔎</div>
-
-        <strong>No matching produce</strong>
-
-        <p>Try another produce or location.</p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    filtered.map(item => `
-
-      <div class="consumer-card">
-
-        <div class="farmer-info">
-
-          <div class="farmer-avatar">
-            👨‍🌾
-          </div>
-
-          <div>
-
-            <strong>
-              ${item.farmerName}
-            </strong>
-
-            <small>
-              📍 ${item.location}
-            </small>
-
-          </div>
-
-          <span class="fresh-badge">
-            FRESH
-          </span>
-
-        </div>
-
-
-        <div class="consumer-card-main">
-
-          <div class="big-produce-icon">
-            ${item.emoji}
-          </div>
-
-
-          <div>
-
-            <h3>
-              ${item.produce}
-            </h3>
-
-            <div class="location">
-              Direct from farmer
             </div>
 
-          </div>
+            `;
 
-
-          <div class="consumer-price">
-
-            <strong>
-              ₹${item.price}
-            </strong>
-
-            <small>/ Kg</small>
-
-          </div>
-
-        </div>
-
-
-        <div class="consumer-card-bottom">
-
-          <div class="available">
-            📦 ${item.quantity} Kg available
-          </div>
-
-          <button
-            class="request-btn"
-            onclick="openRequestModal('${item.id}')">
-
-            Request
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
+        })
+        .join("");
 }
 
 
-/* ================= FILTER ================= */
+/* ================= QUICK BUY ================= */
 
-function filterProduce(category, button) {
+function quickBuy(index) {
 
-  currentFilter = category;
+    const item = listings[index];
 
+    if (!item) return;
 
-  document
-    .querySelectorAll(".filter")
-    .forEach(btn => {
+    document.getElementById("demandName").value =
+        item.produce;
 
-      btn.classList.remove("active");
+    document.getElementById("demandQty").value =
+        Math.min(10, item.quantity);
 
-    });
-
-
-  button.classList.add("active");
-
-
-  renderConsumerListings();
-
+    createDemand();
 }
 
 
-/* ================= REQUEST MODAL ================= */
+/* ================= CREATE DEMAND ================= */
 
-function openRequestModal(id) {
+function createDemand() {
 
-  selectedProduct =
-    listings.find(
-      item => item.id === id
+    const produce =
+        document.getElementById("demandName").value;
+
+    const quantity =
+        Number(document.getElementById("demandQty").value);
+
+    if (!quantity || quantity <= 0) {
+
+        showToast("Please enter required quantity");
+
+        return;
+    }
+
+
+    const consumer =
+        document.getElementById("consumerName").textContent;
+
+    const location =
+        document.getElementById("consumerLocation").textContent;
+
+
+    const demand = {
+
+        consumer: consumer,
+
+        location: location,
+
+        produce: produce,
+
+        quantity: quantity
+
+    };
+
+
+    demands.unshift(demand);
+
+
+    localStorage.setItem(
+        "farmsyncDemands",
+        JSON.stringify(demands)
     );
 
 
-  if (!selectedProduct) return;
+    findMatch(demand);
+}
 
 
-  document
-    .getElementById("requestProductInfo")
-    .innerHTML = `
+/* ================= FIND MATCH ================= */
 
-      You are requesting
+function findMatch(demand) {
 
-      <strong>
-        ${selectedProduct.emoji}
-        ${selectedProduct.produce}
-      </strong>
+    const result =
+        document.getElementById("consumerMatch");
 
-      from
 
-      <strong>
-        ${selectedProduct.farmerName}
-      </strong>
+    const matches = listings.filter(item =>
 
-      in ${selectedProduct.location}.
+        item.produce === demand.produce &&
+        item.quantity >= demand.quantity
+
+    );
+
+
+    if (matches.length === 0) {
+
+        result.innerHTML = `
+
+            <div class="match-card">
+
+                <h2>🔎 Searching PowerPool...</h2>
+
+                <p style="margin-top:10px;">
+                    No direct farmer match found yet.
+                    Your demand has been added to the PowerPool.
+                </p>
+
+            </div>
+
+        `;
+
+        showToast(
+            "⚡ Demand added to PowerPool"
+        );
+
+        return;
+    }
+
+
+    const farmer = matches[0];
+
+
+    result.innerHTML = `
+
+        <div class="match-card">
+
+            <span class="badge">
+                POWERPOOL MATCH FOUND
+            </span>
+
+            <h2 style="margin-top:12px;">
+                ⚡ ${demand.produce} Match Successful
+            </h2>
+
+            <p style="margin-top:12px;">
+                🛒 Consumer:
+                <b>${demand.consumer}</b>
+            </p>
+
+            <p style="margin-top:6px;">
+                📍 Consumer Location:
+                ${demand.location}
+            </p>
+
+            <p style="margin-top:6px;">
+                👨‍🌾 Farmer:
+                <b>${farmer.farmer}</b>
+            </p>
+
+            <p style="margin-top:6px;">
+                📍 Farm Location:
+                ${farmer.location}
+            </p>
+
+            <p style="margin-top:6px;">
+                📦 Required:
+                <b>${demand.quantity} kg</b>
+            </p>
+
+            <p style="margin-top:6px;">
+                💰 Farmer Price:
+                <b>₹${farmer.price}/kg</b>
+            </p>
+
+            <div class="match-small"
+                 style="margin-top:15px;">
+                ✓ Supply available
+                &nbsp; • &nbsp;
+                ✓ Demand matched
+                &nbsp; • &nbsp;
+                ✓ Direct connection
+            </div>
+
+        </div>
 
     `;
 
 
-  document
-    .getElementById("requestQuantity")
-    .max =
-    selectedProduct.quantity;
+    runMatching();
 
-
-  document
-    .getElementById("requestQuantity")
-    .value =
-    Math.min(10, selectedProduct.quantity);
-
-
-  document
-    .getElementById("requestModal")
-    .classList.remove("hidden");
-
-}
-
-
-function closeModal() {
-
-  document
-    .getElementById("requestModal")
-    .classList.add("hidden");
-
-  selectedProduct = null;
-
-}
-
-
-/* ================= SEND REQUEST ================= */
-
-function sendRequest() {
-
-  if (!selectedProduct) return;
-
-
-  const quantity =
-    Number(
-      document.getElementById("requestQuantity").value
-    );
-
-
-  if (
-    quantity <= 0 ||
-    quantity > selectedProduct.quantity
-  ) {
 
     showToast(
-      "!",
-      "Please enter a valid quantity"
+        "⚡ PowerPool match found!"
     );
-
-    return;
-
-  }
+}
 
 
-  const request = {
+/* ================= POWERPOOL ANIMATION ================= */
 
-    id: generateId(),
+function runMatching() {
 
-    productId: selectedProduct.id,
+    const animation =
+        document.getElementById("matchingAnimation");
 
-    farmerName: selectedProduct.farmerName,
-
-    farmerLocation: selectedProduct.location,
-
-    consumerName:
-      currentConsumer?.name || "Consumer",
-
-    consumerLocation:
-      currentConsumer?.location || "Nearby",
-
-    produce: selectedProduct.produce,
-
-    emoji: selectedProduct.emoji,
-
-    quantity: quantity,
-
-    price: selectedProduct.price,
-
-    status: "Pending",
-
-    createdAt: Date.now()
-
-  };
+    const result =
+        document.getElementById("matchResult");
 
 
-  requests.unshift(request);
-
-  saveData();
+    if (!animation) return;
 
 
-  closeModal();
+    animation.classList.remove("running");
+
+    void animation.offsetWidth;
+
+    animation.classList.add("running");
 
 
-  showToast(
-    "⚡",
-    "Demand matched! Request sent to farmer."
-  );
+    result.innerHTML =
+        "⚡ <b>PowerPool is matching supply with consumer demand...</b>";
 
 
-  /*
-    PowerPool visual update
-  */
+    setTimeout(() => {
 
-  const status =
-    document.getElementById("matchStatus");
+        result.innerHTML =
+            "✓ <b>Match complete!</b> Farmer supply and consumer demand successfully connected.";
 
-  status.textContent =
-    "✓ Demand matched with " +
-    selectedProduct.farmerName;
-
-
-  setTimeout(() => {
-
-    status.textContent =
-      "⚡ PowerPool continuously matching demand...";
-
-  }, 3500);
+    }, 2600);
 
 }
 
 
-/* ================= FARMER REQUESTS ================= */
+/* ================= STATS ================= */
 
-function renderFarmerRequests() {
+function updateStats() {
 
-  const container =
-    document.getElementById("farmerRequests");
+    const farmerCount =
+        document.getElementById("farmerCount");
 
+    const consumerCount =
+        document.getElementById("consumerCount");
 
-  if (!currentFarmer) return;
+    const matchCount =
+        document.getElementById("matchCount");
 
 
-  const myRequests =
-    requests.filter(
-      request =>
-        request.farmerName === currentFarmer.name
-    );
+    if (farmerCount) {
 
+        const uniqueFarmers =
+            new Set(listings.map(item => item.farmer));
 
-  if (myRequests.length === 0) {
+        farmerCount.textContent =
+            uniqueFarmers.size;
 
-    container.innerHTML = `
+    }
 
-      <div class="empty-state">
 
-        <div>🛒</div>
+    if (consumerCount) {
 
-        <strong>No consumer requests yet</strong>
+        consumerCount.textContent =
+            Math.max(3, demands.length);
 
-        <p>
-          Consumer demand will appear here.
-        </p>
+    }
 
-      </div>
 
-    `;
+    if (matchCount) {
 
-    return;
+        matchCount.textContent =
+            demands.length;
 
-  }
-
-
-  container.innerHTML =
-    myRequests.map(request => `
-
-      <div class="produce-card">
-
-        <div class="produce-top">
-
-          <div class="produce-image">
-            ${request.emoji}
-          </div>
-
-          <div>
-
-            <div class="produce-name">
-              ${request.produce}
-            </div>
-
-            <div class="produce-meta">
-              Consumer: ${request.consumerName}
-            </div>
-
-          </div>
-
-          <div class="price-tag">
-            ${request.status}
-          </div>
-
-        </div>
-
-
-        <div class="produce-bottom">
-
-          <div class="quantity">
-            ⚡ ${request.quantity} Kg demand
-          </div>
-
-          <button
-            class="request-btn"
-            onclick="acceptRequest('${request.id}')">
-
-            Accept
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
-
-}
-
-
-/* ================= ACCEPT REQUEST ================= */
-
-function acceptRequest(id) {
-
-  const request =
-    requests.find(
-      item => item.id === id
-    );
-
-
-  if (!request) return;
-
-
-  request.status = "Accepted";
-
-
-  saveData();
-
-
-  renderFarmerRequests();
-
-  updateFarmerStats();
-
-
-  showToast(
-    "✓",
-    Order accepted from ${request.consumerName}
-  );
-
-}
-
-
-/* ================= FARMER STATS ================= */
-
-function updateFarmerStats() {
-
-  if (!currentFarmer) return;
-
-
-  const myListings =
-    listings.filter(
-      item =>
-        item.farmerName === currentFarmer.name
-    );
-
-
-  const myRequests =
-    requests.filter(
-      item =>
-        item.farmerName === currentFarmer.name
-    );
-
-
-  const totalQuantity =
-    myListings.reduce(
-      (total, item) =>
-        total + Number(item.quantity),
-      0
-    );
-
-
-  document
-    .getElementById("farmerProductsCount")
-    .textContent =
-    myListings.length;
-
-
-  document
-    .getElementById("farmerTotalQuantity")
-    .textContent =
-    totalQuantity;
-
-
-  document
-    .getElementById("farmerRequestsCount")
-    .textContent =
-    myRequests.length;
-
-}
-
-
-/* ================= POWERPOOL ================= */
-
-function startMatchingAnimation() {
-
-  const status =
-    document.getElementById("matchStatus");
-
-
-  const messages = [
-
-    "Finding nearby farm supply...",
-
-    "Scanning farmer listings...",
-
-    "Comparing price & quantity...",
-
-    "Matching consumer demand...",
-
-    "⚡ PowerPool match ready"
-
-  ];
-
-
-  let index = 0;
-
-
-  setInterval(() => {
-
-    if (
-      document
-        .getElementById("consumerScreen")
-        .classList
-        .contains("hidden")
-    ) return;
-
-
-    status.textContent =
-      messages[index];
-
-
-    index =
-      (index + 1) % messages.length;
-
-  }, 2200);
+    }
 
 }
 
 
 /* ================= TOAST ================= */
 
-let toastTimer;
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    if (!toast) return;
 
 
-function showToast(icon, message) {
+    toast.textContent = message;
 
-  const toast =
-    document.getElementById("toast");
-
-
-  document
-    .getElementById("toastIcon")
-    .textContent =
-    icon;
+    toast.classList.add("show");
 
 
-  document
-    .getElementById("toastMessage")
-    .textContent =
-    message;
-
-
-  toast.classList.add("show");
-
-
-  clearTimeout(toastTimer);
-
-
-  toastTimer =
     setTimeout(() => {
 
-      toast.classList.remove("show");
+        toast.classList.remove("show");
 
-    }, 3000);
-
-}
-
-
-/* ================= DEMO RESET ================= */
-
-function resetDemoData() {
-
-  localStorage.removeItem(
-    "farmsyncListings"
-  );
-
-  localStorage.removeItem(
-    "farmsyncRequests"
-  );
-
-
-  location.reload();
+    }, 2500);
 
 }
-
-
-/* =========================================================
-   END FARMSYNC
-========================================================= */
