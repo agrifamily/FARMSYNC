@@ -1,122 +1,1066 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b8f55">
-  <title>FARMSYNC | Farm to Family</title>
-  <link rel="stylesheet" href="style.css">
-</head>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-<body>
+:root{
+  --green:#16a765;
+  --dark:#06251a;
+  --green2:#0b7f4c;
+  --light:#effbf4;
+  --white:#ffffff;
+  --text:#17382a;
+  --muted:#70877b;
+  --border:#dceee4;
+  --shadow:0 15px 40px rgba(9,100,58,.10);
+}
 
-<!-- ================= ENTRY SCREEN ================= -->
-<div id="entryScreen" class="entry-screen">
-  <div class="entry-particles"></div>
+html{
+  scroll-behavior:smooth;
+}
 
-  <div class="entry-content">
-    <div class="logo-orbit">
-      <div class="farm-logo">🌱</div>
-    </div>
+body{
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:#f5faf7;
+  color:var(--text);
+  min-height:100vh;
+}
 
-    <div class="entry-brand">FARMSYNC</div>
-    <div class="entry-sub">Farm to Family</div>
+button,
+input,
+select{
+  font:inherit;
+}
 
-    <div class="network-animation">
-      <span>👨‍🌾</span>
-      <i></i>
-      <span>⚡</span>
-      <i></i>
-      <span>👨‍👩‍👧</span>
-    </div>
+button{
+  cursor:pointer;
+  border:0;
+}
 
-    <p class="entry-text">
-      Connecting farmers with real consumer demand
-    </p>
-
-    <div class="loading-line">
-      <div></div>
-    </div>
-
-    <button id="enterBtn" class="enter-btn">
-      ENTER FARMSYNC →
-    </button>
-  </div>
-</div>
+.hidden{
+  display:none!important;
+}
 
 
-<!-- ================= APP ================= -->
-<div id="app" class="app hidden">
+/* ================= ENTRY ================= */
 
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="brand-mini">
-      <div class="mini-logo">🌱</div>
-      <div>
-        <b>FARMSYNC</b>
-        <small>Farm to Family</small>
-      </div>
-    </div>
+.entry-screen{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(30,190,110,.18),transparent 30%),
+    linear-gradient(135deg,#031b12,#062c1c 50%,#02130c);
+  color:white;
+}
 
-    <div class="live-status">
-      <span class="live-dot"></span> LIVE
-    </div>
-  </header>
+.entry-screen::before,
+.entry-screen::after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(74,255,160,.15);
+  border-radius:50%;
+  animation:orbit 12s linear infinite;
+}
+
+.entry-screen::before{
+  width:500px;
+  height:500px;
+}
+
+.entry-screen::after{
+  width:800px;
+  height:800px;
+  animation-duration:18s;
+}
+
+.entry-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  width:min(90%,650px);
+  animation:entryUp 1.2s ease;
+}
+
+.logo-orbit{
+  width:110px;
+  height:110px;
+  margin:auto;
+  border:1px solid rgba(91,255,169,.35);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  box-shadow:0 0 50px rgba(22,167,101,.3);
+  animation:float 3s ease-in-out infinite;
+}
+
+.farm-logo{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:40px;
+  background:linear-gradient(145deg,#19bd76,#087d49);
+}
+
+.entry-brand{
+  margin-top:25px;
+  font-size:48px;
+  font-weight:900;
+  letter-spacing:7px;
+}
+
+.entry-sub{
+  margin-top:7px;
+  color:#9ff0c5;
+  font-size:17px;
+  letter-spacing:2px;
+}
+
+.network-animation{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  margin:35px 0 22px;
+  font-size:28px;
+}
+
+.network-animation i{
+  width:65px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#36dd91,transparent);
+  position:relative;
+  overflow:hidden;
+}
+
+.network-animation i::after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:2px;
+  background:white;
+  animation:dataFlow 1.3s linear infinite;
+}
+
+.entry-text{
+  color:#bddacc;
+  font-size:15px;
+}
+
+.loading-line{
+  width:230px;
+  height:3px;
+  background:rgba(255,255,255,.12);
+  border-radius:20px;
+  margin:24px auto;
+  overflow:hidden;
+}
+
+.loading-line div{
+  width:0;
+  height:100%;
+  background:#31df8c;
+  animation:loading 2.2s ease forwards;
+}
+
+.enter-btn{
+  padding:14px 28px;
+  border-radius:30px;
+  color:white;
+  background:linear-gradient(135deg,#18b86d,#087b48);
+  box-shadow:0 10px 30px rgba(19,186,108,.3);
+  transition:.3s;
+}
+
+.enter-btn:hover{
+  transform:translateY(-3px) scale(1.03);
+}
 
 
-  <!-- ================= HOME ================= -->
-  <main id="homePage" class="page">
+/* ================= APP ================= */
 
-    <section class="hero">
-      <div class="hero-glow"></div>
+.app{
+  min-height:100vh;
+}
 
-      <span class="hero-badge">🌾 SMART AGRICULTURE PLATFORM</span>
+.topbar{
+  height:70px;
+  background:white;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 5px 20px rgba(0,0,0,.03);
+}
 
-      <h1>
-        From <span>Farm</span><br>
-        to <span>Family</span>
-      </h1>
+.brand-mini{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-      <p>
-        Directly connect agricultural supply with real consumer demand
-        using intelligent digital matching.
-      </p>
+.mini-logo{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  background:#e5f9ed;
+  border-radius:12px;
+  font-size:23px;
+}
 
-      <div class="hero-buttons">
-        <button class="primary-btn" onclick="openRole('farmer')">
-          👨‍🌾 Farmer
-        </button>
+.brand-mini b{
+  display:block;
+  letter-spacing:1px;
+}
 
-        <button class="secondary-btn" onclick="openRole('consumer')">
-          🛒 Consumer
-        </button>
-      </div>
-    </section>
+.brand-mini small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.live-status{
+  font-size:11px;
+  font-weight:700;
+  color:#168052;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.live-dot{
+  width:8px;
+  height:8px;
+  background:#18c66f;
+  border-radius:50%;
+  box-shadow:0 0 0 5px rgba(24,198,111,.12);
+  animation:blink 1.5s infinite;
+}
 
 
-    <!-- LIVE NETWORK -->
-    <section class="network-card">
-      <div>
-        <small>LIVE FARM NETWORK</small>
-        <h2><span id="farmerCount">12</span> Farmers Connected</h2>
-      </div>
+/* ================= HERO ================= */
 
-      <div class="network-visual">
-        <div>👨‍🌾</div>
-        <div class="pulse-line"></div>
-        <div class="power-icon">⚡</div>
-        <div class="pulse-line"></div>
-        <div>🛒</div>
-      </div>
-    </section>
+.page{
+  max-width:1200px;
+  margin:auto;
+  padding:30px 5% 70px;
+}
+
+.hero{
+  position:relative;
+  padding:55px 35px;
+  border-radius:28px;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg,#083c27,#0b6840);
+  color:white;
+  box-shadow:var(--shadow);
+}
+
+.hero-glow{
+  position:absolute;
+  width:400px;
+  height:400px;
+  right:-130px;
+  top:-180px;
+  background:#32d987;
+  opacity:.16;
+  border-radius:50%;
+  filter:blur(20px);
+}
+
+.hero-badge{
+  display:inline-block;
+  padding:8px 13px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.08);
+  border-radius:30px;
+  font-size:11px;
+}
+
+.hero h1{
+  margin-top:18px;
+  font-size:clamp(38px,6vw,70px);
+  line-height:.98;
+  letter-spacing:-3px;
+}
+
+.hero h1 span{
+  color:#59e9a0;
+}
+
+.hero p{
+  max-width:620px;
+  color:#c4e8d6;
+  line-height:1.7;
+  margin-top:20px;
+  font-size:15px;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:12px;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+  padding:14px 22px;
+  border-radius:12px;
+  transition:.25s;
+}
+
+.primary-btn{
+  background:#4be39a;
+  color:#063520;
+  font-weight:800;
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,.1);
+  color:white;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+  transform:translateY(-3px);
+}
 
 
-    <!-- POWERPOOL PREVIEW -->
-    <section class="power-preview">
+/* ================= CARDS ================= */
 
-      <div class="section-title">
-        <span>⚡</span>
-        <div>
-          <small>SMART DEMAND ENGINE</small>
-          <h2>PowerPool</h2>
-        </div
+.network-card,
+.power-preview,
+.feature-card,
+.dashboard-card,
+.produce-card,
+.match-card,
+.tracking-card,
+.forecast-card,
+.price-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:var(--shadow);
+}
+
+.network-card{
+  margin-top:22px;
+  padding:22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.network-card small,
+.section-title small{
+  color:#779186;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+}
+
+.network-card h2{
+  margin-top:5px;
+  font-size:21px;
+}
+
+.network-visual{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:24px;
+}
+
+.pulse-line{
+  width:55px;
+  height:3px;
+  background:#ccefe0;
+  position:relative;
+  overflow:hidden;
+}
+
+.pulse-line::after{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:100%;
+  background:#18b86d;
+  animation:dataFlow 1.2s linear infinite;
+}
+
+.power-icon{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#e7faef;
+  animation:pulse 1.7s infinite;
+}
+
+
+/* ================= POWERPOOL ================= */
+
+.power-preview{
+  margin-top:22px;
+  padding:25px;
+}
+
+.section-title{
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.section-title>span{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#e8faf0;
+  font-size:22px;
+}
+
+.section-title h2{
+  font-size:23px;
+  margin-top:2px;
+}
+
+.demand-box{
+  margin-top:20px;
+  padding:18px;
+  background:#f5fbf7;
+  border-radius:15px;
+}
+
+.demand-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.demand-number{
+  font-size:30px;
+  font-weight:900;
+  color:#07844d;
+}
+
+.meter{
+  height:12px;
+  margin-top:13px;
+  background:#dceee5;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.meter-fill{
+  width:72%;
+  height:100%;
+  border-radius:20px;
+  background:linear-gradient(90deg,#12a962,#48df98);
+  transition:width .7s ease;
+}
+
+
+/* ================= FEATURES ================= */
+
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:22px;
+}
+
+.feature-card{
+  padding:20px;
+  transition:.3s;
+}
+
+.feature-card:hover{
+  transform:translateY(-5px);
+  border-color:#9fe1bd;
+}
+
+.feature-icon{
+  font-size:26px;
+}
+
+.feature-card h3{
+  font-size:14px;
+  margin-top:12px;
+}
+
+.feature-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  margin-top:6px;
+}
+
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+  animation:fadeIn .5s ease;
+}
+
+.dashboard-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  gap:15px;
+}
+
+.dashboard-header h1{
+  font-size:28px;
+}
+
+.back-btn{
+  padding:10px 15px;
+  border-radius:10px;
+  background:#e8f7ef;
+  color:#087d49;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:18px;
+}
+
+.stat-card small{
+  color:var(--muted);
+}
+
+.stat-value{
+  font-size:27px;
+  font-weight:900;
+  margin-top:8px;
+}
+
+
+/* ================= FORMS ================= */
+
+.form-card{
+  margin-top:20px;
+  background:white;
+  border:1px solid var(--border);
+  padding:22px;
+  border-radius:20px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+  margin-top:15px;
+}
+
+.input-group label{
+  display:block;
+  font-size:11px;
+  color:#687f73;
+  margin-bottom:6px;
+}
+
+.input-group input,
+.input-group select{
+  width:100%;
+  padding:12px;
+  border:1px solid #d8e9e0;
+  border-radius:10px;
+  outline:none;
+  background:#fbfefc;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+  border-color:#27b875;
+  box-shadow:0 0 0 3px rgba(39,184,117,.1);
+}
+
+.add-btn{
+  margin-top:15px;
+  padding:12px 20px;
+  border-radius:10px;
+  background:#0a9255;
+  color:white;
+  font-weight:700;
+}
+
+
+/* ================= SEARCH ================= */
+
+.search-box{
+  margin:20px 0;
+  display:flex;
+  gap:10px;
+}
+
+.search-box input{
+  flex:1;
+  padding:13px 16px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  outline:none;
+}
+
+.search-box button{
+  padding:0 18px;
+  border-radius:12px;
+  background:#0b9154;
+  color:white;
+}
+
+
+/* ================= PRODUCE ================= */
+
+.produce-grid,
+.match-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.produce-card{
+  padding:18px;
+  transition:.3s;
+}
+
+.produce-card:hover{
+  transform:translateY(-4px);
+}
+
+.produce-top{
+  display:flex;
+  justify-content:space-between;
+}
+
+.crop-icon{
+  font-size:32px;
+}
+
+.price{
+  color:#07834c;
+  font-weight:900;
+  font-size:20px;
+}
+
+.farmer-name{
+  font-weight:800;
+  margin-top:12px;
+}
+
+.location{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.produce-info{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+  font-size:12px;
+}
+
+.match-btn{
+  width:100%;
+  margin-top:13px;
+  padding:10px;
+  border-radius:9px;
+  background:#e6f9ee;
+  color:#087b49;
+  font-weight:700;
+}
+
+
+/* ================= POWERPOOL ================= */
+
+.powerpool{
+  margin-top:20px;
+  padding:23px;
+  border-radius:20px;
+  color:white;
+  background:linear-gradient(135deg,#073b25,#0b8250);
+  position:relative;
+  overflow:hidden;
+}
+
+.powerpool::after{
+  content:"⚡";
+  position:absolute;
+  right:30px;
+  top:20px;
+  font-size:70px;
+  opacity:.08;
+}
+
+.powerpool h2{
+  font-size:26px;
+}
+
+.pool-demand{
+  display:flex;
+  gap:25px;
+  flex-wrap:wrap;
+  margin-top:20px;
+}
+
+.pool-number{
+  font-size:32px;
+  font-weight:900;
+}
+
+.pool-label{
+  color:#a9dec2;
+  font-size:11px;
+}
+
+
+/* ================= MATCH ================= */
+
+.match-card{
+  padding:18px;
+  position:relative;
+  overflow:hidden;
+}
+
+.match-score{
+  float:right;
+  padding:7px 10px;
+  border-radius:20px;
+  background:#e3f9ed;
+  color:#07844d;
+  font-weight:900;
+  font-size:12px;
+}
+
+.match-bar{
+  height:7px;
+  background:#e1eee7;
+  border-radius:10px;
+  margin-top:12px;
+  overflow:hidden;
+}
+
+.match-bar div{
+  height:100%;
+  background:#16ac66;
+  border-radius:10px;
+  animation:grow .8s ease;
+}
+
+.matching-animation{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  margin:20px 0;
+}
+
+.match-node{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#e8f9ef;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+}
+
+.match-arrow{
+  color:#0ca15b;
+  font-size:25px;
+  animation:arrowPulse 1s infinite;
+}
+
+
+/* ================= FORECAST ================= */
+
+.two-column{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  margin-top:20px;
+}
+
+.forecast-card,
+.price-card,
+.tracking-card{
+  padding:22px;
+}
+
+.chart{
+  height:150px;
+  margin-top:20px;
+  display:flex;
+  align-items:flex-end;
+  gap:9px;
+  border-bottom:1px solid var(--border);
+}
+
+.bar{
+  flex:1;
+  background:#25b977;
+  border-radius:7px 7px 0 0;
+  animation:grow 1s ease;
+}
+
+.forecast-tag{
+  display:inline-block;
+  margin-top:12px;
+  padding:6px 9px;
+  border-radius:20px;
+  background:#e6f9ee;
+  color:#07834c;
+  font-size:11px;
+}
+
+
+/* ================= TRACKING ================= */
+
+.tracking-line{
+  display:flex;
+  align-items:center;
+  margin-top:25px;
+}
+
+.track-step{
+  text-align:center;
+  flex:1;
+  position:relative;
+  font-size:11px;
+}
+
+.track-circle{
+  width:35px;
+  height:35px;
+  margin:auto;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#16aa65;
+  color:white;
+  position:relative;
+  z-index:2;
+}
+
+.track-step:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  top:17px;
+  left:60%;
+  width:80%;
+  height:3px;
+  background:#24b876;
+}
+
+
+/* ================= QR ================= */
+
+.qr-box{
+  width:120px;
+  height:120px;
+  margin:20px auto;
+  padding:8px;
+  background:white;
+  display:grid;
+  grid-template-columns:repeat(9,1fr);
+  gap:2px;
+  border:6px solid #111;
+}
+
+.qr-box span{
+  background:#111;
+}
+
+.qr-info{
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+}
+
+
+/* ================= TOAST ================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  z-index:99999;
+  background:#082f1e;
+  color:white;
+  padding:13px 18px;
+  border-radius:12px;
+  box-shadow:0 15px 35px rgba(0,0,0,.2);
+  transform:translateY(100px);
+  opacity:0;
+  transition:.35s;
+  font-size:13px;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes loading{
+  to{width:100%}
+}
+
+@keyframes entryUp{
+  from{opacity:0;transform:translateY(35px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes orbit{
+  from{transform:rotate(0)}
+  to{transform:rotate(360deg)}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+@keyframes dataFlow{
+  from{transform:translateX(-30px)}
+  to{transform:translateX(70px)}
+}
+
+@keyframes blink{
+  50%{opacity:.3}
+}
+
+@keyframes pulse{
+  50%{transform:scale(1.12);box-shadow:0 0 0 10px rgba(24,184,109,.05)}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes grow{
+  from{height:0}
+}
+
+@keyframes arrowPulse{
+  50%{transform:translateX(6px)}
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:900px){
+
+  .features-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .produce-grid,
+  .match-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:600px){
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .page{
+    padding:18px 14px 50px;
+  }
+
+  .hero{
+    padding:35px 22px;
+    border-radius:22px;
+  }
+
+  .hero h1{
+    font-size:43px;
+  }
+
+  .network-card{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .network-visual{
+    width:100%;
+    justify-content:center;
+  }
+
+  .features-grid,
+  .stats-grid,
+  .produce-grid,
+  .match-grid,
+  .two-column{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .entry-brand{
+    font-size:37px;
+    letter-spacing:4px;
+  }
+
+  .network-animation i{
+    width:35px;
+  }
+
+  .dashboard-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .tracking-line{
+    overflow-x:auto;
+    min-width:600px;
+  }
+
+  .tracking-card{
+    overflow:hidden;
+  }
+
+}
