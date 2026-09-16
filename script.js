@@ -1,1868 +1,1510 @@
-// ==========================================
-// FARMSYNC - FARM TO FAMILY
-// Full Demo JavaScript
-// ==========================================
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-const app = document.getElementById("app");
+:root {
+  --green: #16a34a;
+  --dark: #14532d;
+  --dark2: #052e16;
+  --light: #f0fdf4;
+  --border: #dbe7de;
+  --text: #17251b;
+  --muted: #6b7b70;
+  --white: #ffffff;
+  --orange: #ea580c;
+  --blue: #2563eb;
+  --shadow: 0 10px 30px rgba(20, 83, 45, 0.08);
+}
 
-let currentRole = "";
-let cart = [];
-let farmerListings = [
-  {
-    id: 1,
-    name: "Arun Kumar",
-    location: "Pollachi",
-    crop: "Tomato",
-    quantity: 100,
-    price: 27,
-    harvest: "Today",
-    icon: "🍅"
-  },
-  {
-    id: 2,
-    name: "Suresh",
-    location: "Mettupalayam",
-    crop: "Onion",
-    quantity: 80,
-    price: 32,
-    harvest: "Yesterday",
-    icon: "🧅"
-  },
-  {
-    id: 3,
-    name: "Manoj",
-    location: "Udumalpet",
-    crop: "Banana",
-    quantity: 150,
-    price: 38,
-    harvest: "Today",
-    icon: "🍌"
-  },
-  {
-    id: 4,
-    name: "Karthik",
-    location: "Kinathukadavu",
-    crop: "Coconut",
-    quantity: 200,
-    price: 45,
-    harvest: "Today",
-    icon: "🥥"
-  },
-  {
-    id: 5,
-    name: "Vijay",
-    location: "Annur",
-    crop: "Carrot",
-    quantity: 70,
-    price: 40,
-    harvest: "Yesterday",
-    icon: "🥕"
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5faf6;
+  color: var(--text);
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =========================
+   LOADER
+========================= */
+
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #f0fdf4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .5s;
+}
+
+#loader.hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader-box {
+  text-align: center;
+}
+
+.loader-logo {
+  width: 75px;
+  height: 75px;
+  margin: auto;
+  border-radius: 22px;
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+}
+
+.loader-box h1 {
+  margin-top: 18px;
+  font-size: 34px;
+  color: var(--dark);
+}
+
+.loader-box h1 span {
+  color: var(--green);
+}
+
+.loader-box p {
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.loader-progress {
+  width: 220px;
+  height: 6px;
+  background: #dcfce7;
+  border-radius: 20px;
+  margin: 22px auto 10px;
+  overflow: hidden;
+}
+
+.loader-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--green);
+  animation: loading 1.3s forwards;
+}
+
+@keyframes loading {
+  to {
+    width: 100%;
   }
-];
+}
 
-let consumerDemand = [
-  {
-    name: "Rahul",
-    location: "Coimbatore",
-    crop: "Tomato",
-    quantity: 25
-  },
-  {
-    name: "Priya",
-    location: "Tiruppur",
-    crop: "Tomato",
-    quantity: 30
-  },
-  {
-    name: "Ajay",
-    location: "Erode",
-    crop: "Tomato",
-    quantity: 20
+
+/* =========================
+   HOME
+========================= */
+
+.home {
+  min-height: 100vh;
+  padding: 45px 20px;
+  text-align: center;
+  background:
+    radial-gradient(circle at top, #dcfce7, transparent 45%),
+    #f5faf6;
+}
+
+.brand-icon {
+  width: 75px;
+  height: 75px;
+  margin: 10px auto;
+  border-radius: 25px;
+  background: white;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.brand-title {
+  margin-top: 18px;
+  font-size: 48px;
+  color: var(--dark);
+  letter-spacing: -2px;
+}
+
+.brand-title span {
+  color: var(--green);
+}
+
+.brand-subtitle {
+  color: var(--green);
+  font-weight: bold;
+  font-size: 19px;
+}
+
+.brand-description {
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.role-grid {
+  max-width: 850px;
+  margin: 45px auto 25px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.role-card {
+  position: relative;
+  text-align: left;
+  padding: 30px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+  transition: .25s;
+}
+
+.role-card:hover {
+  transform: translateY(-5px);
+}
+
+.role-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.role-card h2 {
+  margin-top: 20px;
+}
+
+.role-card p {
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.arrow {
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  font-size: 28px;
+  color: var(--green);
+}
+
+.feature-strip {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feature-strip span {
+  padding: 9px 14px;
+  border-radius: 30px;
+  background: white;
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  border: none;
+  background: white;
+  box-shadow: var(--shadow);
+  width: 45px;
+  height: 45px;
+  border-radius: 14px;
+  font-size: 20px;
+}
+
+.topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.topbar-title h2 {
+  font-size: 20px;
+}
+
+.topbar-title small {
+  color: var(--muted);
+}
+
+.status-dot {
+  color: var(--green);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.welcome-card,
+.consumer-hero {
+  background:
+    linear-gradient(120deg, #14532d, #166534);
+  color: white;
+  border-radius: 25px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.consumer-hero {
+  background:
+    linear-gradient(120deg, #064e3b, #047857);
+}
+
+.welcome-card p,
+.consumer-hero p {
+  opacity: .8;
+  margin-top: 8px;
+}
+
+.welcome-icon {
+  font-size: 60px;
+}
+
+.live-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  opacity: .75;
+  font-weight: bold;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.dashboard-grid,
+.consumer-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-card,
+.consumer-stats > div {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-card > span {
+  font-size: 28px;
+}
+
+.stat-card small,
+.consumer-stats small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.stat-card strong,
+.consumer-stats strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-btn {
+  width: 100%;
+  border: none;
+  border-radius: 15px;
+  padding: 15px;
+  background: var(--green);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.primary-btn:hover {
+  background: #15803d;
+}
+
+.secondary-btn {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 14px;
+  background: white;
+}
+
+.small-btn,
+.primary-small,
+.outline-btn {
+  border: none;
+  padding: 9px 13px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.small-btn,
+.primary-small {
+  background: var(--green);
+  color: white;
+}
+
+.outline-btn {
+  background: white;
+  border: 1px solid var(--border);
+}
+
+
+/* =========================
+   POWERPOOL
+========================= */
+
+.powerpool-panel {
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 24px;
+  background: var(--dark2);
+  color: white;
+  overflow: hidden;
+}
+
+.powerpool-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.powerpool-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  background: #166534;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.powerpool-head span {
+  font-size: 9px;
+  color: #86efac;
+  letter-spacing: 1px;
+}
+
+.powerpool-head h2 {
+  margin-top: 3px;
+}
+
+.active-pill {
+  margin-left: auto;
+  background: rgba(34,197,94,.15);
+  color: #86efac !important;
+  padding: 8px 10px;
+  border-radius: 20px;
+}
+
+.power-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 35px 0 25px;
+}
+
+.flow-node {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(134,239,172,.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.flow-node small {
+  font-size: 9px;
+  color: #bbf7d0;
+  margin-top: 5px;
+}
+
+.power-node {
+  border-color: #4ade80;
+  box-shadow: 0 0 30px rgba(74,222,128,.2);
+  animation: pulse 1.7s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
   }
-];
-
-
-// ==========================================
-// LOADER
-// ==========================================
-
-window.addEventListener("load", () => {
-
-  setTimeout(() => {
-
-    const loader = document.getElementById("loader");
-
-    if (loader) {
-      loader.classList.add("hide");
-    }
-
-    showHome();
-
-  }, 1200);
-
-});
-
-
-// ==========================================
-// HOME
-// ==========================================
-
-function showHome() {
-
-  currentRole = "";
-
-  app.innerHTML = `
-
-    <section class="home">
-
-      <div class="digital-orbit">
-        <div class="orbit-dot">🌱</div>
-      </div>
-
-      <div class="brand-icon">🌾</div>
-
-      <h1 class="brand-title">
-        FARM<span>SYNC</span>
-      </h1>
-
-      <p class="brand-subtitle">
-        Farm to Family
-      </p>
-
-      <p class="brand-description">
-        Connecting farmer supply with consumer demand
-      </p>
-
-
-      <div class="role-grid">
-
-        <button
-          class="role-card"
-          onclick="selectRole('farmer')">
-
-          <div class="role-icon">
-            👨‍🌾
-          </div>
-
-          <h2>Farmer</h2>
-
-          <p>
-            List and sell your fresh produce
-          </p>
-
-          <span class="arrow">
-            →
-          </span>
-
-        </button>
-
-
-        <button
-          class="role-card"
-          onclick="selectRole('consumer')">
-
-          <div class="role-icon">
-            🛒
-          </div>
-
-          <h2>Consumer</h2>
-
-          <p>
-            Find fresh produce directly
-          </p>
-
-          <span class="arrow">
-            →
-          </span>
-
-        </button>
-
-      </div>
-
-
-      <div class="feature-strip">
-
-        <span>⚡ PowerPool</span>
-        <span>🤖 AI Forecast</span>
-        <span>📍 Smart Match</span>
-        <span>🌱 Traceability</span>
-
-      </div>
-
-    </section>
-
-  `;
-
 }
 
-
-// ==========================================
-// ROLE
-// ==========================================
-
-function selectRole(role) {
-
-  currentRole = role;
-
-  if (role === "farmer") {
-    showFarmerDashboard();
-  } else {
-    showConsumerDashboard();
-  }
-
-}
-
-
-// ==========================================
-// FARMER DASHBOARD
-// ==========================================
-
-function showFarmerDashboard() {
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${topBar(
-        "Farmer Dashboard",
-        "Manage your farm produce",
-        "showHome()",
-        "👨‍🌾"
-      )}
-
-
-      <div class="welcome-card">
-
-        <div>
-
-          <span class="live-label">
-            ● LIVE FARMER MODE
-          </span>
-
-          <h2>
-            Sell directly to consumers
-          </h2>
-
-          <p>
-            List your produce with price,
-            quantity and location.
-          </p>
-
-        </div>
-
-        <div class="welcome-icon">
-          🌾
-        </div>
-
-      </div>
-
-
-      <div class="dashboard-grid">
-
-        <div class="stat-card">
-
-          <span>🌱</span>
-
-          <div>
-            <small>My Listings</small>
-            <strong>${farmerListings.length}</strong>
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <span>📦</span>
-
-          <div>
-            <small>Total Supply</small>
-            <strong>
-              ${getTotalSupply()} kg
-            </strong>
-          </div>
-
-        </div>
-
-
-        <div class="stat-card">
-
-          <span>⚡</span>
-
-          <div>
-            <small>PowerPool Demand</small>
-            <strong>
-              ${getTotalDemand()} kg
-            </strong>
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="primary-btn"
-        onclick="showAddProduce()">
-
-        ＋ Add New Produce
-
-      </button>
-
-
-      <div class="section-heading">
-
-        <div>
-          <h2>My Produce</h2>
-          <p>Active farmer listings</p>
-        </div>
-
-        <span class="count-badge">
-          ${farmerListings.length}
-        </span>
-
-      </div>
-
-
-      <div class="listing-grid">
-
-        ${renderFarmerListings()}
-
-      </div>
-
-
-      <div class="ai-card">
-
-        <div class="ai-icon">
-          🤖
-        </div>
-
-        <div>
-
-          <span>AI DEMAND FORECAST</span>
-
-          <h3>
-            Tomato demand may increase next week
-          </h3>
-
-          <p>
-            Current: 420 kg
-            → Predicted: 510 kg
-          </p>
-
-        </div>
-
-        <strong class="trend">
-          ↑ 21%
-        </strong>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-// ==========================================
-// FARMER LISTINGS
-// ==========================================
-
-function renderFarmerListings() {
-
-  return farmerListings.map(item => `
-
-    <div class="produce-card">
-
-      <div class="produce-image">
-        ${item.icon}
-      </div>
-
-      <div class="produce-details">
-
-        <div class="card-title-row">
-
-          <h3>
-            ${item.crop}
-          </h3>
-
-          <span class="fresh-badge">
-            FRESH
-          </span>
-
-        </div>
-
-        <p>
-          👨‍🌾 ${item.name}
-        </p>
-
-        <p>
-          📍 ${item.location}
-        </p>
-
-        <div class="produce-bottom">
-
-          <span>
-            📦 ${item.quantity} kg
-          </span>
-
-          <strong>
-            ₹${item.price}/kg
-          </strong>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `).join("");
-
-}
-
-
-// ==========================================
-// ADD PRODUCE
-// ==========================================
-
-function showAddProduce() {
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${topBar(
-        "Add Produce",
-        "Create a farmer listing",
-        "showFarmerDashboard()",
-        "🌱"
-      )}
-
-
-      <div class="form-card">
-
-        <div class="form-header">
-
-          <div>
-            <span>FARMER LISTING</span>
-            <h2>Add your produce</h2>
-          </div>
-
-          <div class="form-icon">
-            🌾
-          </div>
-
-        </div>
-
-
-        <label>Farmer Name</label>
-
-        <input
-          id="farmerName"
-          type="text"
-          placeholder="Enter farmer name"
-        />
-
-
-        <label>Location</label>
-
-        <input
-          id="farmerLocation"
-          type="text"
-          placeholder="Enter farm location"
-        />
-
-
-        <label>Crop</label>
-
-        <select id="crop">
-
-          <option value="Tomato">🍅 Tomato</option>
-          <option value="Onion">🧅 Onion</option>
-          <option value="Banana">🍌 Banana</option>
-          <option value="Coconut">🥥 Coconut</option>
-          <option value="Carrot">🥕 Carrot</option>
-          <option value="Potato">🥔 Potato</option>
-
-        </select>
-
-
-        <label>Quantity (kg)</label>
-
-        <input
-          id="quantity"
-          type="number"
-          placeholder="100"
-        />
-
-
-        <label>Price per kg (₹)</label>
-
-        <input
-          id="price"
-          type="number"
-          placeholder="30"
-        />
-
-
-        <button
-          class="primary-btn"
-          onclick="addProduce()">
-
-          🚀 List My Produce
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-// ==========================================
-// ADD PRODUCE FUNCTION
-// ==========================================
-
-function addProduce() {
-
-  const name =
-    document.getElementById("farmerName").value.trim();
-
-  const location =
-    document.getElementById("farmerLocation").value.trim();
-
-  const crop =
-    document.getElementById("crop").value;
-
-  const quantity =
-    Number(document.getElementById("quantity").value);
-
-  const price =
-    Number(document.getElementById("price").value);
-
-
-  if (
-    !name ||
-    !location ||
-    !crop ||
-    quantity <= 0 ||
-    price <= 0
-  ) {
-
-    showToast("Please fill all details");
-
-    return;
-
-  }
-
-
-  const icons = {
-    Tomato: "🍅",
-    Onion: "🧅",
-    Banana: "🍌",
-    Coconut: "🥥",
-    Carrot: "🥕",
-    Potato: "🥔"
-  };
-
-
-  farmerListings.unshift({
-
-    id: Date.now(),
-
-    name,
-
-    location,
-
-    crop,
-
-    quantity,
-
-    price,
-
-    harvest: "Today",
-
-    icon: icons[crop]
-
-  });
-
-
-  showToast("Produce listed successfully 🌱");
-
-
-  setTimeout(() => {
-    showFarmerDashboard();
-  }, 700);
-
-}
-
-
-// ==========================================
-// CONSUMER DASHBOARD
-// ==========================================
-
-function showConsumerDashboard() {
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${topBar(
-        "Consumer Marketplace",
-        "Fresh produce from farmers",
-        "showHome()",
-        "🛒"
-      )}
-
-
-      <div class="consumer-hero">
-
-        <div>
-
-          <span class="live-label">
-            ● POWERPOOL ACTIVE
-          </span>
-
-          <h1>
-            Fresh From Farmers
-          </h1>
-
-          <p>
-            Discover produce and connect directly
-            with farmers.
-          </p>
-
-        </div>
-
-        <div class="hero-network">
-
-          <span>👨‍🌾</span>
-          <b>⚡</b>
-          <span>🛒</span>
-
-        </div>
-
-      </div>
-
-
-      <div class="consumer-stats">
-
-        <div>
-          <strong>
-            ${getTotalSupply()}
-          </strong>
-          <small>kg supply</small>
-        </div>
-
-        <div>
-          <strong>
-            ${getTotalDemand()}
-          </strong>
-          <small>kg demand</small>
-        </div>
-
-        <div>
-          <strong>
-            ${farmerListings.length}
-          </strong>
-          <small>farmers</small>
-        </div>
-
-      </div>
-
-
-      <div class="powerpool-panel">
-
-        <div class="powerpool-head">
-
-          <div class="powerpool-logo">
-            ⚡
-          </div>
-
-          <div>
-
-            <span>SMART MATCHING ENGINE</span>
-
-            <h2>
-              PowerPool
-            </h2>
-
-          </div>
-
-          <span class="active-pill">
-            ACTIVE
-          </span>
-
-        </div>
-
-
-        <div class="power-flow">
-
-          <div class="flow-node">
-            🛒
-            <small>Demand</small>
-          </div>
-
-          <div class="flow-line"></div>
-
-          <div class="flow-node power-node">
-            ⚡
-            <small>PowerPool</small>
-          </div>
-
-          <div class="flow-line"></div>
-
-          <div class="flow-node">
-            👨‍🌾
-            <small>Supply</small>
-          </div>
-
-        </div>
-
-
-        <p>
-          Aggregating consumer demand and
-          matching suitable farmer supply.
-        </p>
-
-      </div>
-
-
-      <div class="search-wrapper">
-
-        <span>🔎</span>
-
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="Search tomato, onion, banana..."
-          oninput="searchProduce()"
-        />
-
-      </div>
-
-
-      <div class="section-heading">
-
-        <div>
-          <h2>Available Produce</h2>
-          <p>Direct farmer listings</p>
-        </div>
-
-        <button
-          class="small-btn"
-          onclick="showDemandForm()">
-
-          ＋ Request
-
-        </button>
-
-      </div>
-
-
-      <div id="consumer-products"
-           class="product-grid">
-
-        ${renderConsumerProducts()}
-
-      </div>
-
-
-      <div class="forecast-card">
-
-        <div class="forecast-icon">
-          🤖
-        </div>
-
-        <div>
-
-          <span>AI DEMAND FORECAST</span>
-
-          <h3>
-            Tomato demand
-          </h3>
-
-          <p>
-            420 kg current → 510 kg predicted
-          </p>
-
-        </div>
-
-        <div class="forecast-value">
-          +21%
-        </div>
-
-      </div>
-
-
-      <div class="delivery-card">
-
-        <div class="delivery-icon">
-          🚚
-        </div>
-
-        <div>
-
-          <span>SMART DELIVERY POOL</span>
-
-          <h3>
-            Group nearby orders
-          </h3>
-
-          <p>
-            Same-area orders can be grouped
-            into an efficient delivery route.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-// ==========================================
-// CONSUMER PRODUCTS
-// ==========================================
-
-function renderConsumerProducts(list = farmerListings) {
-
-  if (!list.length) {
-
-    return `
-
-      <div class="empty-state">
-
-        🌱
-
-        <h3>
-          No produce found
-        </h3>
-
-        <p>
-          Try another crop name.
-        </p>
-
-      </div>
-
-    `;
-
-  }
-
-
-  return list.map(item => {
-
-    const match = calculateMatch(item);
-
-    const distance = calculateDistance(item.location);
-
-    return `
-
-      <div class="product-card">
-
-        <div class="product-main">
-
-          <div class="product-icon">
-            ${item.icon}
-          </div>
-
-
-          <div class="product-info">
-
-            <div class="card-title-row">
-
-              <h3>
-                ${item.crop}
-              </h3>
-
-              <span class="match-badge">
-                ${match}% Match
-              </span>
-
-            </div>
-
-
-            <p>
-              👨‍🌾 ${item.name}
-            </p>
-
-            <p>
-              📍 ${item.location}
-              • ${distance} km away
-            </p>
-
-          </div>
-
-
-          <div class="product-price">
-
-            <strong>
-              ₹${item.price}
-            </strong>
-
-            <small>
-              /kg
-            </small>
-
-          </div>
-
-        </div>
-
-
-        <div class="product-meta">
-
-          <span>
-            📦 ${item.quantity} kg available
-          </span>
-
-          <span>
-            🌱 Harvest: ${item.harvest}
-          </span>
-
-        </div>
-
-
-        <div class="match-progress">
-
-          <div>
-
-            <span>
-              ⚡ PowerPool Match
-            </span>
-
-            <strong>
-              ${match}%
-            </strong>
-
-          </div>
-
-          <div class="progress-track">
-
-            <div
-              class="progress-fill"
-              style="width:${match}%">
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="product-actions">
-
-          <button
-            class="outline-btn"
-            onclick="showTraceability(${item.id})">
-
-            🌱 Trace
-
-          </button>
-
-
-          <button
-            class="outline-btn"
-            onclick="showPriceBreakdown(${item.id})">
-
-            💰 Price
-
-          </button>
-
-
-          <button
-            class="primary-small"
-            onclick="requestProduce(${item.id})">
-
-            ⚡ Request
-
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }).join("");
-
-}
-
-
-// ==========================================
-// SEARCH
-// ==========================================
-
-function searchProduce() {
-
-  const input =
-    document.getElementById("searchInput");
-
-  if (!input) return;
-
-
-  const value =
-    input.value.toLowerCase();
-
-
-  const filtered =
-    farmerListings.filter(item =>
-
-      item.crop.toLowerCase().includes(value) ||
-
-      item.name.toLowerCase().includes(value) ||
-
-      item.location.toLowerCase().includes(value)
-
-    );
-
-
-  document.getElementById("consumer-products")
-    .innerHTML =
-    renderConsumerProducts(filtered);
-
-}
-
-
-// ==========================================
-// DEMAND FORM
-// ==========================================
-
-function showDemandForm() {
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${topBar(
-        "Create Demand",
-        "Add your requirement to PowerPool",
-        "showConsumerDashboard()",
-        "⚡"
-      )}
-
-
-      <div class="form-card">
-
-        <div class="form-header">
-
-          <div>
-
-            <span>POWERPOOL DEMAND</span>
-
-            <h2>
-              What do you need?
-            </h2>
-
-          </div>
-
-          <div class="form-icon">
-            ⚡
-          </div>
-
-        </div>
-
-
-        <label>Your Name</label>
-
-        <input
-          id="consumerName"
-          placeholder="Enter your name"
-        />
-
-
-        <label>Location</label>
-
-        <input
-          id="consumerLocation"
-          placeholder="Enter your location"
-        />
-
-
-        <label>Required Crop</label>
-
-        <select id="demandCrop">
-
-          <option>Tomato</option>
-          <option>Onion</option>
-          <option>Banana</option>
-          <option>Coconut</option>
-          <option>Carrot</option>
-
-        </select>
-
-
-        <label>Required Quantity (kg)</label>
-
-        <input
-          id="demandQuantity"
-          type="number"
-          placeholder="20"
-        />
-
-
-        <button
-          class="primary-btn"
-          onclick="addDemand()">
-
-          ⚡ Add to PowerPool
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-// ==========================================
-// ADD DEMAND
-// ==========================================
-
-function addDemand() {
-
-  const name =
-    document.getElementById("consumerName").value.trim();
-
-  const location =
-    document.getElementById("consumerLocation").value.trim();
-
-  const crop =
-    document.getElementById("demandCrop").value;
-
-  const quantity =
-    Number(document.getElementById("demandQuantity").value);
-
-
-  if (
-    !name ||
-    !location ||
-    quantity <= 0
-  ) {
-
-    showToast("Please fill all details");
-
-    return;
-
-  }
-
-
-  consumerDemand.push({
-
-    name,
-    location,
-    crop,
-    quantity
-
-  });
-
-
-  showToast(
-    "Demand added to PowerPool ⚡"
+.flow-line {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #4ade80,
+    transparent
   );
+  animation: flow 1.5s infinite;
+}
 
+@keyframes flow {
+  50% {
+    opacity: .3;
+  }
+}
 
-  setTimeout(() => {
-
-    showConsumerDashboard();
-
-  }, 800);
-
+.powerpool-panel > p {
+  text-align: center;
+  color: #bbf7d0;
+  font-size: 12px;
 }
 
 
-// ==========================================
-// REQUEST PRODUCE
-// ==========================================
+/* =========================
+   FEATURES
+========================= */
 
-function requestProduce(id) {
+.feature-dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+}
 
-  const item =
-    farmerListings.find(
-      x => x.id === id
+.feature-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+}
+
+.feature-card.full {
+  grid-column: 1 / -1;
+}
+
+.feature-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.feature-card-header h3 {
+  font-size: 17px;
+}
+
+.feature-card-header small {
+  display: block;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+
+/* Demand */
+
+.demand-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.demand-top strong {
+  color: var(--green);
+}
+
+.demand-track {
+  height: 12px;
+  margin: 10px 0;
+  border-radius: 20px;
+  background: #e5eee7;
+  overflow: hidden;
+}
+
+.demand-fill {
+  width: 84%;
+  height: 100%;
+  background: var(--green);
+  border-radius: inherit;
+  animation: demand 1s;
+}
+
+@keyframes demand {
+  from {
+    width: 0;
+  }
+}
+
+
+/* Supply gap */
+
+.gap-box {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.gap-box div {
+  background: #fff7ed;
+  border-radius: 13px;
+  padding: 12px;
+}
+
+.gap-box small {
+  display: block;
+  color: #9a3412;
+  font-size: 9px;
+}
+
+.gap-box strong {
+  display: block;
+  color: var(--orange);
+  margin-top: 4px;
+}
+
+
+/* Farmer Pool */
+
+.pool-list {
+  display: grid;
+  gap: 10px;
+}
+
+.pool-farmer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fbf9;
+  padding: 12px;
+  border-radius: 14px;
+}
+
+.pool-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pool-info {
+  flex: 1;
+}
+
+.pool-info strong {
+  display: block;
+  font-size: 13px;
+}
+
+.pool-info small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.pool-quantity {
+  color: var(--green);
+  font-weight: bold;
+}
+
+
+/* Match */
+
+.farmer-match {
+  background: #f8fbf9;
+  padding: 13px;
+  border-radius: 13px;
+  margin-bottom: 10px;
+}
+
+.farmer-match-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.match-score {
+  color: var(--green);
+  font-weight: bold;
+}
+
+.farmer-match small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.match-bar {
+  height: 6px;
+  background: #e5eee7;
+  border-radius: 20px;
+  margin-top: 7px;
+}
+
+.match-bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: inherit;
+}
+
+
+/* AI */
+
+.ai-forecast {
+  background: linear-gradient(135deg,#f0fdf4,#ecfdf5);
+  border-color: #bbf7d0;
+}
+
+.forecast-number {
+  font-size: 35px;
+  font-weight: 900;
+  color: var(--dark);
+}
+
+.forecast-up {
+  color: var(--green);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+
+/* Delivery */
+
+.delivery-steps {
+  display: flex;
+  align-items: center;
+}
+
+.delivery-step {
+  flex: 1;
+  text-align: center;
+}
+
+.delivery-step-icon {
+  width: 48px;
+  height: 48px;
+  margin: auto;
+  border-radius: 50%;
+  background: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.delivery-step strong {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+}
+
+.delivery-step small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.delivery-line {
+  height: 3px;
+  flex: .5;
+  background: #22c55e;
+}
+
+
+/* QR */
+
+.qr-trace {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 17px;
+  border-radius: 16px;
+  background: #f8fbf9;
+}
+
+.qr-code {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border: 7px solid white;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #111 0px,
+      #111 3px,
+      white 3px,
+      white 7px
     );
+}
 
+.qr-trace strong {
+  font-size: 13px;
+}
 
-  if (!item) return;
-
-
-  cart.push(item);
-
-
-  showToast(
-    `${item.crop} added to PowerPool ⚡`
-  );
-
-
-  setTimeout(() => {
-
-    showMatchingAnimation(item);
-
-  }, 700);
-
+.qr-trace p {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 5px 0 10px;
 }
 
 
-// ==========================================
-// MATCHING ANIMATION
-// ==========================================
+/* Network */
 
-function showMatchingAnimation(item) {
+.network {
+  position: relative;
+  height: 210px;
+  border-radius: 18px;
+  background: #052e16;
+  overflow: hidden;
+}
 
-  app.innerHTML = `
+.network-title {
+  position: absolute;
+  left: 18px;
+  top: 15px;
+  color: #86efac;
+  font-size: 9px;
+  letter-spacing: 1px;
+}
 
-    <div class="matching-screen">
+.network-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #166534;
+  border: 2px solid #4ade80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 27px;
+  animation: pulse 2s infinite;
+}
 
-      <div class="matching-orbit">
+.network-node {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: node 2s infinite;
+}
 
-        <span>🛒</span>
+.n1 { left: 15%; top: 35%; }
+.n2 { right: 15%; top: 35%; }
+.n3 { left: 27%; bottom: 15%; }
+.n4 { right: 27%; bottom: 15%; }
 
-        <div class="orbit-ring">
-          ⚡
-        </div>
-
-        <span>👨‍🌾</span>
-
-      </div>
-
-
-      <span class="live-label">
-        POWERPOOL ENGINE
-      </span>
-
-
-      <h1>
-        Finding Smart Match
-      </h1>
-
-
-      <p>
-        Analyzing demand and farmer supply...
-      </p>
-
-
-      <div class="matching-steps">
-
-        <div class="matching-step active">
-          <span>✓</span>
-          Crop verified
-        </div>
-
-        <div class="matching-step active">
-          <span>✓</span>
-          Quantity analyzed
-        </div>
-
-        <div class="matching-step">
-          <span>⚡</span>
-          Comparing price
-        </div>
-
-        <div class="matching-step">
-          <span>📍</span>
-          Checking distance
-        </div>
-
-      </div>
-
-
-      <div class="big-progress">
-
-        <div></div>
-
-      </div>
-
-
-      <small>
-        PowerPool is calculating the suitable connection
-      </small>
-
-    </div>
-
-  `;
-
-
-  setTimeout(() => {
-
-    showMatchResult(item);
-
-  }, 3000);
-
+@keyframes node {
+  50% {
+    transform: scale(1.12);
+  }
 }
 
 
-// ==========================================
-// MATCH RESULT
-// ==========================================
+/* =========================
+   SEARCH
+========================= */
 
-function showMatchResult(item) {
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  margin: 20px 0;
+}
 
-  const match =
-    calculateMatch(item);
+.search-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 13px;
+}
 
-  const distance =
-    calculateDistance(item.location);
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.section-heading p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 4px;
+}
 
-  app.innerHTML = `
-
-    <div class="success-screen">
-
-      <div class="success-check">
-        ✓
-      </div>
-
-
-      <span class="live-label">
-        POWERPOOL MATCH FOUND
-      </span>
-
-
-      <h1>
-        Smart Match Successful
-      </h1>
-
-
-      <p>
-        A suitable farmer supply has been identified.
-      </p>
-
-
-      <div class="match-result-card">
-
-        <div class="match-person">
-
-          <div class="person-icon">
-            👨‍🌾
-          </div>
-
-          <strong>
-            ${item.name}
-          </strong>
-
-          <span>
-            ${item.location}
-          </span>
-
-        </div>
-
-
-        <div class="connection-pulse">
-          ⚡
-        </div>
-
-
-        <div class="match-person">
-
-          <div class="person-icon">
-            🛒
-          </div>
-
-          <strong>
-            Consumer
-          </strong>
-
-          <span>
-            Demand matched
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="match-stats">
-
-        <div>
-          <strong>
-            ${match}%
-          </strong>
-          <small>Match</small>
-        </div>
-
-        <div>
-          <strong>
-            ${distance} km
-          </strong>
-          <small>Distance</small>
-        </div>
-
-        <div>
-          <strong>
-            ₹${item.price}
-          </strong>
-          <small>Farmer Price</small>
-        </div>
-
-      </div>
-
-
-      <button
-        class="primary-btn"
-        onclick="showTraceability(${item.id})">
-
-        🌱 View Farm Traceability
-
-      </button>
-
-
-      <button
-        class="secondary-btn"
-        onclick="showConsumerDashboard()">
-
-        ← Back to Marketplace
-
-      </button>
-
-    </div>
-
-  `;
-
+.count-badge,
+.match-badge {
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 20px;
+  padding: 6px 9px;
+  font-size: 9px;
+  font-weight: bold;
 }
 
 
-// ==========================================
-// TRACEABILITY
-// ==========================================
+/* =========================
+   PRODUCTS
+========================= */
 
-function showTraceability(id) {
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 15px;
+  margin-top: 15px;
+}
 
-  const item =
-    farmerListings.find(
-      x => x.id === id
-    );
+.product-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 17px;
+  box-shadow: var(--shadow);
+}
 
+.product-main {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
 
-  if (!item) return;
+.product-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 16px;
+  background: #fff7ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
 
+.product-info {
+  flex: 1;
+}
 
-  app.innerHTML = `
+.card-title-row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
-    <div class="dashboard">
+.product-info h3 {
+  font-size: 16px;
+}
 
-      ${topBar(
-        "Farm Traceability",
-        "Know where your produce comes from",
-        "showConsumerDashboard()",
-        "🌱"
-      )}
+.product-info p {
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 4px;
+}
 
+.product-price {
+  text-align: right;
+}
 
-      <div class="trace-card">
+.product-price strong {
+  font-size: 20px;
+  color: var(--green);
+}
 
-        <div class="trace-product">
+.product-price small {
+  color: var(--muted);
+}
 
-          <div class="trace-icon">
-            ${item.icon}
-          </div>
+.product-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
 
-          <div>
+.product-meta span {
+  background: #f5faf6;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 9px;
+}
 
-            <span>TRACEABLE PRODUCE</span>
+.match-progress {
+  margin-top: 13px;
+}
 
-            <h1>
-              ${item.crop}
-            </h1>
+.match-progress > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+}
 
-          </div>
+.progress-track {
+  height: 5px;
+  background: #e5eee7;
+  margin-top: 5px;
+  border-radius: 20px;
+}
 
-        </div>
+.progress-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: inherit;
+}
 
+.product-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
 
-        <div class="trace-line">
-
-          <div class="trace-point">
-            <span>🌱</span>
-            <strong>Farm</strong>
-            <small>
-              ${item.location}
-            </small>
-          </div>
-
-          <div class="trace-connector"></div>
-
-          <div class="trace-point">
-            <span>📅</span>
-            <strong>Harvest</strong>
-            <small>
-              ${item.harvest}
-            </small>
-          </div>
-
-          <div class="trace-connector"></div>
-
-          <div class="trace-point">
-            <span>🛒</span>
-            <strong>Family</strong>
-            <small>
-              Direct connection
-            </small>
-          </div>
-
-        </div>
-
-
-        <div class="trace-details">
-
-          <div>
-            <span>Farmer</span>
-            <strong>${item.name}</strong>
-          </div>
-
-          <div>
-            <span>Location</span>
-            <strong>${item.location}</strong>
-          </div>
-
-          <div>
-            <span>Quantity</span>
-            <strong>${item.quantity} kg</strong>
-          </div>
-
-          <div>
-            <span>Price</span>
-            <strong>₹${item.price}/kg</strong>
-          </div>
-
-        </div>
-
-
-        <div class="qr-box">
-
-          <div class="fake-qr">
-            ▦
-          </div>
-
-          <div>
-
-            <strong>
-              Digital Farm Record
-            </strong>
-
-            <p>
-              QR-based traceability can be
-              integrated in the production version.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
+.product-actions button {
+  flex: 1;
 }
 
 
-// ==========================================
-// PRICE TRANSPARENCY
-// ==========================================
+/* =========================
+   FORM
+========================= */
 
-function showPriceBreakdown(id) {
+.form-card {
+  max-width: 650px;
+  margin: 25px auto;
+  padding: 25px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+}
 
-  const item =
-    farmerListings.find(
-      x => x.id === id
-    );
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
 
+.form-header span {
+  font-size: 9px;
+  color: var(--green);
+  letter-spacing: 1px;
+}
 
-  if (!item) return;
+.form-header h2 {
+  margin-top: 5px;
+}
 
+.form-icon {
+  font-size: 40px;
+}
 
-  const platformCost = 2;
+.form-card label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  margin: 14px 0 6px;
+}
 
-  const deliveryCost = 1;
-
-  const consumerPrice =
-    item.price +
-    platformCost +
-    deliveryCost;
-
-
-  app.innerHTML = `
-
-    <div class="dashboard">
-
-      ${topBar(
-        "Price Transparency",
-        "Simple and visible pricing",
-        "showConsumerDashboard()",
-        "💰"
-      )}
-
-
-      <div class="price-card">
-
-        <div class="price-product">
-
-          <span>
-            ${item.icon}
-          </span>
-
-          <div>
-
-            <h2>
-              ${item.crop}
-            </h2>
-
-            <p>
-              From ${item.name}
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <div class="price-row">
-
-          <span>
-            🌱 Farmer Price
-          </span>
-
-          <strong>
-            ₹${item.price}
-          </strong>
-
-        </div>
-
-
-        <div class="price-row">
-
-          <span>
-            ⚙ Platform / Service
-          </span>
-
-          <strong>
-            ₹${platformCost}
-          </strong>
-
-        </div>
-
-
-        <div class="price-row">
-
-          <span>
-            🚚 Delivery Estimate
-          </span>
-
-          <strong>
-            ₹${deliveryCost}
-          </strong>
-
-        </div>
-
-
-        <div class="price-total">
-
-          <span>
-            Consumer Price
-          </span>
-
-          <strong>
-            ₹${consumerPrice}/kg
-          </strong>
-
-        </div>
-
-
-        <p class="demo-note">
-          *Demo calculation. Actual platform and
-          delivery charges can be configured later.
-        </p>
-
-      </div>
-
-    </div>
-
-  `;
-
+.form-card input,
+.form-card select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
 }
 
 
-// ==========================================
-// MATCH CALCULATION
-// ==========================================
+/* =========================
+   MATCHING SCREEN
+========================= */
 
-function calculateMatch(item) {
+.matching-screen,
+.success-screen {
+  min-height: 100vh;
+  padding: 45px 20px;
+  text-align: center;
+  background:
+    radial-gradient(circle,#dcfce7,transparent 45%),
+    #f5faf6;
+}
 
-  let score = 70;
+.matching-orbit {
+  width: 170px;
+  height: 170px;
+  margin: 30px auto;
+  border-radius: 50%;
+  border: 2px dashed #86efac;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 35px;
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.matching-screen h1,
+.success-screen h1 {
+  margin-top: 15px;
+  color: var(--dark);
+}
+
+.matching-screen p,
+.success-screen p {
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.big-progress {
+  max-width: 450px;
+  height: 10px;
+  background: #dcfce7;
+  border-radius: 20px;
+  margin: 30px auto;
+  overflow: hidden;
+}
+
+.big-progress div {
+  height: 100%;
+  width: 0;
+  background: var(--green);
+  animation: matching 3s forwards;
+}
+
+@keyframes matching {
+  to {
+    width: 100%;
+  }
+}
+
+.matching-steps {
+  max-width: 400px;
+  margin: auto;
+  text-align: left;
+}
+
+.matching-step {
+  padding: 12px;
+  background: white;
+  border-radius: 12px;
+  margin: 8px;
+  font-size: 12px;
+  box-shadow: var(--shadow);
+}
+
+.matching-step span {
+  color: var(--green);
+  margin-right: 8px;
+}
 
 
-  const matchingDemand =
-    consumerDemand.find(
-      d => d.crop === item.crop
-    );
+/* =========================
+   SUCCESS
+========================= */
 
+.success-check {
+  width: 85px;
+  height: 85px;
+  margin: 40px auto 20px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
+  animation: pop .5s;
+}
 
-  if (matchingDemand) {
-
-    score += 10;
-
-    if (
-      item.quantity >=
-      matchingDemand.quantity
-    ) {
-
-      score += 8;
-
-    }
-
+@keyframes pop {
+  from {
+    transform: scale(0);
   }
 
+  to {
+    transform: scale(1);
+  }
+}
 
-  if (item.price <= 35) {
-    score += 5;
+.match-result-card {
+  max-width: 650px;
+  margin: 30px auto 15px;
+  background: white;
+  padding: 25px;
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.match-person {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.person-icon {
+  font-size: 35px;
+}
+
+.match-person span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.connection-pulse {
+  font-size: 28px;
+  color: var(--green);
+  animation: pulse 1s infinite;
+}
+
+.match-stats {
+  max-width: 650px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+
+.match-stats div {
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: var(--shadow);
+}
+
+.match-stats strong {
+  display: block;
+  color: var(--green);
+}
+
+.match-stats small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+
+/* =========================
+   TRACEABILITY
+========================= */
+
+.trace-card {
+  background: white;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+}
+
+.trace-product {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--border);
+}
+
+.trace-icon {
+  width: 65px;
+  height: 65px;
+  background: #fff7ed;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 35px;
+}
+
+.trace-product p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.trace-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 35px 0;
+}
+
+.trace-point {
+  text-align: center;
+}
+
+.trace-point span {
+  display: flex;
+  width: 55px;
+  height: 55px;
+  margin: auto;
+  border-radius: 50%;
+  background: #dcfce7;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.trace-point strong {
+  display: block;
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+.trace-point small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.trace-connector {
+  width: 80px;
+  height: 3px;
+  background: var(--green);
+}
+
+.trace-details {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+
+.trace-details div {
+  padding: 13px;
+  border-radius: 12px;
+  background: #f8fbf9;
+}
+
+.trace-details span {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.trace-details strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.qr-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+  padding: 15px;
+  background: #f8fbf9;
+  border-radius: 15px;
+}
+
+.fake-qr {
+  width: 70px;
+  height: 70px;
+  border: 5px solid white;
+  background: #111;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 45px;
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: 25px;
+  transform: translate(-50%,120px);
+  background: #14532d;
+  color: white;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  z-index: 10000;
+  transition: .3s;
+  box-shadow: var(--shadow);
+}
+
+#toast.show {
+  transform: translate(-50%,0);
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px) {
+
+  .brand-title {
+    font-size: 38px;
   }
 
+  .role-grid,
+  .feature-dashboard,
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
 
-  return Math.min(score, 98);
+  .feature-card.full {
+    grid-column: auto;
+  }
 
-}
+  .dashboard-grid,
+  .consumer-stats {
+    grid-template-columns: 1fr;
+  }
 
+  .welcome-card,
+  .consumer-hero {
+    padding: 22px;
+  }
 
-// ==========================================
-// DISTANCE SIMULATION
-// ==========================================
+  .welcome-icon {
+    font-size: 40px;
+  }
 
-function calculateDistance(location) {
+  .power-flow {
+    margin: 25px 0;
+  }
 
-  const distances = {
+  .flow-node {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
 
-    Pollachi: 35,
-    Mettupalayam: 38,
-    Udumalpet: 70,
-    Kinathukadavu: 25,
-    Annur: 40
+  .flow-line {
+    width: 45px;
+  }
 
-  };
+  .gap-box {
+    grid-template-columns: 1fr;
+  }
 
+  .match-result-card {
+    flex-direction: column;
+    gap: 18px;
+  }
 
-  return distances[location] || 20;
+  .match-stats {
+    grid-template-columns: 1fr;
+  }
 
-}
+  .trace-line {
+    flex-direction: column;
+    gap: 10px;
+  }
 
+  .trace-connector {
+    width: 3px;
+    height: 35px;
+  }
 
-// ==========================================
-// TOTAL SUPPLY
-// ==========================================
+  .trace-details {
+    grid-template-columns: repeat(2,1fr);
+  }
 
-function getTotalSupply() {
-
-  return farmerListings.reduce(
-    (total, item) =>
-      total + Number(item.quantity),
-    0
-  );
-
-}
-
-
-// ==========================================
-// TOTAL DEMAND
-// ==========================================
-
-function getTotalDemand() {
-
-  return consumerDemand.reduce(
-    (total, item) =>
-      total + Number(item.quantity),
-    0
-  );
-
-}
-
-
-// ==========================================
-// TOP BAR
-// ==========================================
-
-function topBar(
-  title,
-  subtitle,
-  backFunction,
-  icon
-) {
-
-  return `
-
-    <div class="topbar">
-
-      <button
-        class="back-btn"
-        onclick="${backFunction}">
-
-        ←
-
-      </button>
-
-
-      <div class="topbar-title">
-
-        <div class="topbar-icon">
-          ${icon}
-        </div>
-
-        <div>
-
-          <h2>
-            ${title}
-          </h2>
-
-          <small>
-            ${subtitle}
-          </small>
-
-        </div>
-
-      </div>
-
-
-      <div class="status-dot">
-        ●
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-// ==========================================
-// TOAST
-// ==========================================
-
-function showToast(message) {
-
-  const toast =
-    document.getElementById("toast");
-
-
-  if (!toast) return;
-
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-
-  setTimeout(() => {
-
-    toast.classList.remove("show");
-
-  }, 2500);
+  .qr-trace {
+    align-items: flex-start;
+  }
 
 }
