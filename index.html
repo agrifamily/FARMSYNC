@@ -1,128 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color"
-        content="#168b3e">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>FARMSYNC | Farm to Family</title>
 
   <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- =====================================================
-     INTRO SCREEN
-===================================================== -->
+<!-- ================= SPLASH SCREEN ================= -->
 
-<div id="introScreen">
+<div id="splashScreen" class="splash">
 
-  <div class="intro-orbit orbit1"></div>
-  <div class="intro-orbit orbit2"></div>
+  <div class="splash-orbit orbit1"></div>
+  <div class="splash-orbit orbit2"></div>
 
-  <div class="intro-content">
-
-    <div class="brand-icon">
-      🌱
-    </div>
-
-    <h1>FARMSYNC</h1>
-
-    <p class="tagline">
-      Farm to Family
-    </p>
-
-    <div class="intro-line"></div>
-
-    <p class="intro-description">
-      Connecting fresh agricultural produce<br>
-      with real consumer demand.
-    </p>
-
-    <div class="flow">
-
-      <div class="flow-card">
-        <span>👨‍🌾</span>
-        <b>FARMER</b>
-      </div>
-
-      <div class="flow-arrow">→</div>
-
-      <div class="flow-card power-card">
-        <span>⚡</span>
-        <b>POWERPOOL</b>
-      </div>
-
-      <div class="flow-arrow">→</div>
-
-      <div class="flow-card">
-        <span>👨‍👩‍👧</span>
-        <b>FAMILY</b>
-      </div>
-
-    </div>
-
-    <button class="start-btn"
-            onclick="enterFarmSync()">
-
-      Get Started
-      <span>→</span>
-
-    </button>
-
-    <p class="intro-footer">
-      SMART AGRICULTURE • DIGITAL MARKETPLACE
-    </p>
-
+  <div class="splash-logo">
+    🌱
   </div>
+
+  <h1>FARMSYNC</h1>
+
+  <p>Farm to Family</p>
+
+  <div class="loading-line">
+    <span></span>
+  </div>
+
+  <small>Connecting Farmers with Consumer Demand</small>
 
 </div>
 
 
-<!-- =====================================================
-     MAIN APP
-===================================================== -->
+<!-- ================= APP ================= -->
 
-<div id="app" class="hidden">
+<div id="app" class="app hidden">
 
-  <!-- HEADER -->
+  <!-- NAVBAR -->
 
   <header class="navbar">
 
-    <div class="logo-area">
+    <div class="brand" onclick="showHome()">
 
-      <div class="mini-logo">
+      <div class="brand-icon">
         🌱
       </div>
 
       <div>
-        <h2>FARMSYNC</h2>
-        <small>Farm to Family</small>
+        <strong>FARMSYNC</strong>
+        <span>Farm to Family</span>
       </div>
 
     </div>
 
+    <div class="nav-actions">
 
-    <div class="nav-right">
+      <button onclick="showHome()">Home</button>
 
-      <span class="live-dot"></span>
+      <button onclick="showFarmer()">🌾 Farmer</button>
 
-      <span class="live-text">
-        LIVE NETWORK
-      </span>
+      <button onclick="showConsumer()">🛒 Consumer</button>
 
-      <button class="role-btn"
-              onclick="switchRole()"
-              id="roleButton">
-
-        👨‍🌾 Farmer
-
+      <button class="power-nav" onclick="showPowerPool()">
+        ⚡ PowerPool
       </button>
 
     </div>
@@ -130,388 +77,861 @@
   </header>
 
 
-  <!-- =================================================
-       FARMER DASHBOARD
-  ================================================== -->
+  <!-- ================= HOME ================= -->
 
-  <main id="farmerPage"
-        class="page">
+  <main id="homePage" class="page">
 
     <section class="hero">
 
-      <div>
+      <div class="hero-content">
 
-        <span class="eyebrow">
-          SMART AGRICULTURE • LIVE
-        </span>
+        <div class="live-badge">
+          <span class="pulse"></span>
+          LIVE SMART AGRICULTURE NETWORK
+        </div>
 
         <h1>
-          Welcome, Farmer 👋
+          From <span>Farm</span><br>
+          to <span>Family.</span>
         </h1>
 
         <p>
-          Connect your harvest with real consumer demand.
+          A smart digital marketplace connecting farmers directly
+          with real consumer demand.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button class="primary-btn" onclick="showFarmer()">
+            🌾 I'm a Farmer
+          </button>
+
+          <button class="secondary-btn" onclick="showConsumer()">
+            🛒 I'm a Consumer
+          </button>
+
+        </div>
+
+        <div class="hero-stats">
+
+          <div>
+            <strong id="homeFarmers">12</strong>
+            <span>Farmers</span>
+          </div>
+
+          <div>
+            <strong id="homeConsumers">28</strong>
+            <span>Consumers</span>
+          </div>
+
+          <div>
+            <strong>500+</strong>
+            <span>Demand Pool</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DIGITAL NETWORK -->
+
+      <div class="network-card">
+
+        <div class="network-title">
+          <span>⚡</span>
+          Live Farm Network
+        </div>
+
+        <div class="network">
+
+          <div class="network-node farmer-node">
+            🌾
+            <span>Farmer</span>
+          </div>
+
+          <div class="network-line">
+            <i></i>
+          </div>
+
+          <div class="network-node pool-node">
+            ⚡
+            <span>PowerPool</span>
+          </div>
+
+          <div class="network-line">
+            <i></i>
+          </div>
+
+          <div class="network-node consumer-node">
+            🛒
+            <span>Consumer</span>
+          </div>
+
+        </div>
+
+        <div class="network-status">
+          <span class="green-dot"></span>
+          Intelligent demand matching active
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="features-section">
+
+      <div class="section-heading">
+        <span>SMART AGRICULTURE PLATFORM</span>
+        <h2>Everything connected in one place.</h2>
+      </div>
+
+
+      <div class="feature-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon">🌾</div>
+          <h3>Farmer Dashboard</h3>
+          <p>List produce, quantity, price and location.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🛒</div>
+          <h3>Consumer Dashboard</h3>
+          <p>Search fresh produce from nearby farmers.</p>
+        </div>
+
+        <div class="feature-card power-feature">
+          <div class="feature-icon">⚡</div>
+          <h3>PowerPool</h3>
+          <p>Aggregate consumer demand and match supply.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Smart Match</h3>
+          <p>Match score based on price, location and quantity.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI Forecast</h3>
+          <p>Demo demand forecasting for upcoming demand.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>QR Traceability</h3>
+          <p>Track produce journey from farm to family.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- WHY -->
+
+    <section class="why-section">
+
+      <div>
+
+        <span class="mini-label">THE FARMSYNC DIFFERENCE</span>
+
+        <h2>
+          Don't just list products.<br>
+          <span>Understand demand.</span>
+        </h2>
+
+        <p>
+          FARMSYNC focuses on connecting aggregated consumer demand
+          with multiple farmers through the PowerPool system.
         </p>
 
       </div>
 
-      <button class="primary-btn"
-              onclick="openProduceModal()">
+      <div class="comparison">
 
-        + List New Produce
+        <div class="traditional">
+          <span>TRADITIONAL MARKETPLACE</span>
 
-      </button>
+          <div>📦 Product Listing</div>
+          <div>🔎 Search</div>
+          <div>🛒 Purchase</div>
+        </div>
+
+        <div class="arrow-big">→</div>
+
+        <div class="farmsync-box">
+          <span>FARMSYNC</span>
+
+          <div>👥 Demand Aggregation</div>
+          <div>⚡ PowerPool</div>
+          <div>🎯 Smart Matching</div>
+          <div>🌾 Multiple Farmer Supply</div>
+        </div>
+
+      </div>
 
     </section>
+
+  </main>
+
+
+  <!-- ================= FARMER ================= -->
+
+  <main id="farmerPage" class="page hidden">
+
+    <div class="dashboard-header">
+
+      <div>
+        <button class="back-btn" onclick="showHome()">← Back</button>
+
+        <span class="dashboard-label">FARMER NETWORK</span>
+
+        <h1>🌾 Farmer Dashboard</h1>
+
+        <p>Connect your harvest with real consumer demand.</p>
+      </div>
+
+      <div class="profile-chip">
+        👨‍🌾 <span id="farmerProfileName">Ravi Kumar</span>
+      </div>
+
+    </div>
 
 
     <!-- STATS -->
 
-    <section class="stats-grid">
+    <div class="stats-grid">
 
       <div class="stat-card">
+        <span>🌱</span>
+        <small>Active Produce</small>
+        <strong id="produceCount">12</strong>
+      </div>
 
-        <div class="stat-icon green">
-          🌱
-        </div>
+      <div class="stat-card power-stat">
+        <span>⚡</span>
+        <small>PowerPool Demand</small>
+        <strong id="farmerDemand">500 kg</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>💰</span>
+        <small>Potential Sales</small>
+        <strong id="potentialSales">₹13.5K</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>🎯</span>
+        <small>Match Score</small>
+        <strong>94%</strong>
+      </div>
+
+    </div>
+
+
+    <!-- ADD PRODUCE -->
+
+    <section class="dashboard-card">
+
+      <div class="card-heading">
 
         <div>
-
-          <span>Active Produce</span>
-
-          <strong id="activeProduce">
-            0
-          </strong>
-
+          <span class="mini-label">LIST YOUR HARVEST</span>
+          <h2>➕ Add Produce</h2>
         </div>
+
+        <span class="live-tag">● LIVE</span>
 
       </div>
 
 
-      <div class="stat-card">
+      <form id="produceForm" class="produce-form">
 
-        <div class="stat-icon orange">
-          ⚡
+        <div class="input-group">
+
+          <label>Farmer Name</label>
+
+          <input
+            id="farmerName"
+            type="text"
+            placeholder="Enter farmer name"
+            required
+          >
+
         </div>
 
+
+        <div class="input-group">
+
+          <label>Location</label>
+
+          <input
+            id="farmerLocation"
+            type="text"
+            placeholder="e.g. Pollachi"
+            required
+          >
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Produce</label>
+
+          <select id="crop">
+
+            <option>Tomato</option>
+            <option>Onion</option>
+            <option>Potato</option>
+            <option>Banana</option>
+            <option>Carrot</option>
+            <option>Brinjal</option>
+            <option>Chilli</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Quantity (kg)</label>
+
+          <input
+            id="quantity"
+            type="number"
+            min="1"
+            placeholder="100"
+            required
+          >
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label>Price / kg</label>
+
+          <input
+            id="price"
+            type="number"
+            min="1"
+            placeholder="27"
+            required
+          >
+
+        </div>
+
+
+        <button class="primary-btn submit-btn" type="submit">
+          ⚡ List Produce
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <!-- FARMER PRODUCE -->
+
+    <section class="dashboard-card">
+
+      <div class="card-heading">
+
         <div>
-
-          <span>PowerPool Demand</span>
-
-          <strong id="poolDemand">
-            0 kg
-          </strong>
-
+          <span class="mini-label">YOUR LISTINGS</span>
+          <h2>🌱 My Produce</h2>
         </div>
 
       </div>
 
+      <div id="farmerListings" class="listing-grid"></div>
 
-      <div class="stat-card">
+    </section>
 
-        <div class="stat-icon blue">
-          👥
-        </div>
+
+    <!-- DEMAND -->
+
+    <section class="dashboard-card">
+
+      <div class="card-heading">
 
         <div>
-
-          <span>Consumers</span>
-
-          <strong id="consumerCount">
-            0
-          </strong>
-
+          <span class="mini-label">SMART DEMAND ENGINE</span>
+          <h2>⚡ PowerPool</h2>
         </div>
 
       </div>
 
+      <div class="demand-meter">
 
-      <div class="stat-card">
+        <div class="meter-info">
 
-        <div class="stat-icon purple">
-          ₹
-        </div>
+          <span>Tomato demand</span>
 
-        <div>
-
-          <span>Potential Sales</span>
-
-          <strong id="potentialSales">
-            ₹0
+          <strong>
+            <span id="demandValue">500</span> kg
           </strong>
 
         </div>
+
+        <div class="meter">
+          <span id="demandBar"></span>
+        </div>
+
+        <div class="meter-bottom">
+          <span>0 kg</span>
+          <span>1000 kg</span>
+        </div>
+
+      </div>
+
+      <div id="farmerMatches" class="matches"></div>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= CONSUMER ================= -->
+
+  <main id="consumerPage" class="page hidden">
+
+    <div class="dashboard-header">
+
+      <div>
+
+        <button class="back-btn" onclick="showHome()">← Back</button>
+
+        <span class="dashboard-label">CONSUMER NETWORK</span>
+
+        <h1>🛒 Consumer Dashboard</h1>
+
+        <p>Find fresh produce directly from farmers.</p>
+
+      </div>
+
+      <div class="profile-chip">
+        👤 <span id="consumerProfileName">Arun Kumar</span>
+      </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <section class="search-box">
+
+      <div>
+
+        <span class="mini-label">FRESH FROM FARMERS</span>
+
+        <h2>Find your produce</h2>
+
+      </div>
+
+      <div class="search-input">
+
+        🔎
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search tomato, onion, banana..."
+          oninput="searchProduce()"
+        >
 
       </div>
 
     </section>
 
 
-    <!-- POWERPOOL -->
+    <!-- CONSUMER DEMAND -->
 
-    <section class="powerpool-section">
+    <section class="dashboard-card">
 
-      <div class="section-heading">
+      <div class="card-heading">
 
         <div>
-
-          <span class="eyebrow">
-            SMART DEMAND ENGINE
-          </span>
-
-          <h2>
-            ⚡ PowerPool
-          </h2>
-
-          <p>
-            Aggregating consumer demand and matching it with farmer supply.
-          </p>
-
+          <span class="mini-label">CREATE DEMAND</span>
+          <h2>⚡ Join PowerPool</h2>
         </div>
 
-        <span class="status-pill">
-          ● ACTIVE
+        <span class="pool-live">
+          POWERPOOL ACTIVE
         </span>
 
       </div>
 
 
-      <div class="pool-visual">
+      <div class="demand-form">
 
-        <div class="pool-side">
+        <select id="consumerCrop">
 
-          <h3>Consumer Demand</h3>
+          <option>Tomato</option>
+          <option>Onion</option>
+          <option>Potato</option>
+          <option>Banana</option>
+          <option>Carrot</option>
 
-          <div class="demand-number"
-               id="poolVisualDemand">
+        </select>
 
-            0 kg
+        <input
+          id="consumerQty"
+          type="number"
+          placeholder="Required kg"
+          min="1"
+          value="20"
+        >
 
-          </div>
+        <input
+          id="consumerLocation"
+          type="text"
+          placeholder="Your location"
+          value="Coimbatore"
+        >
 
-          <small>
-            Combined requirement
-          </small>
+        <button
+          class="primary-btn"
+          onclick="joinPowerPool()"
+        >
+          ⚡ Add Demand
+        </button>
 
+      </div>
+
+      <div id="consumerSuccess" class="success-message hidden">
+        ✅ Demand added to PowerPool successfully!
+      </div>
+
+    </section>
+
+
+    <!-- FARMERS -->
+
+    <section class="dashboard-card">
+
+      <div class="card-heading">
+
+        <div>
+          <span class="mini-label">DIRECT FARM CONNECTION</span>
+          <h2>👨‍🌾 Available Farmers</h2>
         </div>
 
+        <span id="resultCount"></span>
 
-        <div class="matching-animation">
+      </div>
 
-          <div class="node node1">
-            👨‍👩‍👧
-          </div>
+      <div id="consumerListings" class="consumer-listings"></div>
 
-          <div class="node node2">
-            👨‍👩‍👧
-          </div>
-
-          <div class="node node3">
-            👨‍👩‍👧
-          </div>
-
-          <div class="power-core">
-            ⚡
-            <span>POWER<br>POOL</span>
-          </div>
-
-          <div class="connection c1"></div>
-          <div class="connection c2"></div>
-          <div class="connection c3"></div>
-
-        </div>
+    </section>
 
 
-        <div class="pool-side">
+    <!-- PRICE TREND -->
 
-          <h3>Farmer Supply</h3>
+    <section class="dashboard-card">
 
-          <div class="demand-number"
-               id="poolVisualSupply">
+      <div class="card-heading">
 
-            0 kg
-
-          </div>
-
-          <small>
-            Available produce
-          </small>
-
+        <div>
+          <span class="mini-label">MARKET INTELLIGENCE</span>
+          <h2>📈 Price Trend</h2>
         </div>
 
       </div>
 
+      <div class="price-chart">
 
-      <div class="match-result"
-           id="matchResult">
+        <div class="chart-bars">
 
-        <span>🤖</span>
+          <div class="bar" style="height:45%">
+            <span>₹22</span>
+          </div>
 
-        <div>
+          <div class="bar" style="height:60%">
+            <span>₹24</span>
+          </div>
 
-          <strong>
-            Smart Matching Engine
-          </strong>
+          <div class="bar" style="height:50%">
+            <span>₹23</span>
+          </div>
 
-          <p>
-            Analysing crop, quantity, price and location...
-          </p>
+          <div class="bar active-bar" style="height:75%">
+            <span>₹27</span>
+          </div>
 
+          <div class="bar" style="height:82%">
+            <span>₹29</span>
+          </div>
+
+          <div class="bar" style="height:70%">
+            <span>₹27</span>
+          </div>
+
+        </div>
+
+        <div class="chart-labels">
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
         </div>
 
       </div>
 
     </section>
 
+  </main>
 
-    <!-- PRODUCE -->
 
-    <section class="produce-section">
+  <!-- ================= POWERPOOL ================= -->
 
-      <div class="section-heading">
+  <main id="powerPage" class="page hidden">
+
+    <div class="dashboard-header power-header">
+
+      <div>
+
+        <button class="back-btn" onclick="showHome()">← Back</button>
+
+        <span class="dashboard-label">SMART DEMAND ENGINE</span>
+
+        <h1>⚡ PowerPool</h1>
+
+        <p>Aggregate demand → Match multiple farmers → Fulfil demand.</p>
+
+      </div>
+
+      <div class="power-live-indicator">
+        <span class="pulse"></span>
+        LIVE MATCHING
+      </div>
+
+    </div>
+
+
+    <!-- POWERPOOL HERO -->
+
+    <section class="powerpool-hero">
+
+      <div class="power-stat-large">
+
+        <span>⚡</span>
 
         <div>
 
-          <span class="eyebrow">
-            FARMER NETWORK
-          </span>
+          <small>LIVE CONSUMER DEMAND</small>
 
-          <h2>
-            Available Farmer Produce
-          </h2>
+          <strong id="poolTotal">500 KG</strong>
 
         </div>
 
-        <button class="outline-btn"
-                onclick="openProduceModal()">
+      </div>
 
-          + Add Produce
 
+      <div class="gap-card">
+
+        <small>⚠️ SUPPLY GAP</small>
+
+        <strong id="supplyGap">80 KG</strong>
+
+        <span>Still required</span>
+
+      </div>
+
+
+      <div class="forecast-card">
+
+        <small>🤖 AI FORECAST</small>
+
+        <strong>+18%</strong>
+
+        <span>Expected demand</span>
+
+      </div>
+
+    </section>
+
+
+    <!-- LIVE MATCHING -->
+
+    <section class="matching-card">
+
+      <div class="card-heading">
+
+        <div>
+
+          <span class="mini-label">INTELLIGENT MATCHING ENGINE</span>
+
+          <h2>🔗 Consumer Demand → Farmer Supply</h2>
+
+        </div>
+
+        <button class="secondary-btn" onclick="runMatching()">
+          ⚡ Run Matching
         </button>
 
       </div>
 
 
-      <div id="produceGrid"
-           class="produce-grid">
+      <div id="matchingAnimation" class="matching-animation">
+
+        <div class="match-column">
+
+          <h3>👥 Consumer Demand</h3>
+
+          <div class="demand-bubble">
+            <strong>500 kg</strong>
+            <span>Tomato</span>
+          </div>
+
+          <div class="demand-bubble small">
+            <strong>100 kg</strong>
+            <span>Onion</span>
+          </div>
+
+        </div>
+
+
+        <div class="matching-core">
+
+          <div class="core-circle">
+            ⚡
+          </div>
+
+          <div class="core-ring"></div>
+
+          <span>POWER<br>POOL</span>
+
+        </div>
+
+
+        <div class="match-column">
+
+          <h3>🌾 Farmer Supply</h3>
+
+          <div class="supply-bubble">
+            <strong>220 kg</strong>
+            <span>Farmer A</span>
+          </div>
+
+          <div class="supply-bubble">
+            <strong>150 kg</strong>
+            <span>Farmer B</span>
+          </div>
+
+          <div class="supply-bubble">
+            <strong>130 kg</strong>
+            <span>Farmer C</span>
+          </div>
+
+        </div>
 
       </div>
 
     </section>
 
-  </main>
+
+    <!-- MATCH TABLE -->
+
+    <section class="dashboard-card">
+
+      <div class="card-heading">
+
+        <div>
+
+          <span class="mini-label">SMART MATCH RESULTS</span>
+
+          <h2>🎯 Multiple Farmer Matching</h2>
+
+        </div>
+
+      </div>
 
 
-  <!-- =================================================
-       CONSUMER DASHBOARD
-  ================================================== -->
+      <div id="powerMatches" class="power-matches"></div>
 
-  <main id="consumerPage"
-        class="page hidden">
+    </section>
 
-    <section class="hero consumer-hero">
+
+    <!-- AI FORECAST -->
+
+    <section class="forecast-panel">
+
+      <div class="forecast-icon">🤖</div>
 
       <div>
 
-        <span class="eyebrow">
-          FRESH FROM FARMERS
-        </span>
+        <span class="mini-label">AI DEMAND FORECAST</span>
 
-        <h1>
-          Find Fresh Produce 🛒
-        </h1>
+        <h2>Upcoming demand prediction</h2>
 
         <p>
-          Discover produce directly from farmers.
+          Based on demo consumer demand patterns, tomato demand
+          may increase by approximately <strong>18%</strong>.
         </p>
 
       </div>
 
-      <button class="primary-btn"
-              onclick="openDemandModal()">
-
-        + Create Demand
-
-      </button>
+      <div class="forecast-number">
+        +18%
+      </div>
 
     </section>
 
 
-    <!-- CONSUMER STATS -->
+    <!-- DELIVERY -->
 
-    <section class="stats-grid">
+    <section class="dashboard-card">
 
-      <div class="stat-card">
-
-        <div class="stat-icon green">
-          🥬
-        </div>
+      <div class="card-heading">
 
         <div>
 
-          <span>Available Products</span>
+          <span class="mini-label">LAST MILE</span>
 
-          <strong id="consumerProducts">
-            0
-          </strong>
+          <h2>🚚 Delivery Tracking</h2>
 
         </div>
 
       </div>
 
 
-      <div class="stat-card">
+      <div class="delivery-track">
 
-        <div class="stat-icon orange">
-          ⚡
+        <div class="delivery-step active">
+          <div>📦</div>
+          <span>Order Confirmed</span>
         </div>
 
-        <div>
+        <div class="delivery-line active-line"></div>
 
-          <span>PowerPool</span>
-
-          <strong id="consumerPool">
-            0 kg
-          </strong>
-
+        <div class="delivery-step active">
+          <div>🌾</div>
+          <span>Farmer Pickup</span>
         </div>
 
-      </div>
+        <div class="delivery-line"></div>
 
-
-      <div class="stat-card">
-
-        <div class="stat-icon blue">
-          📍
+        <div class="delivery-step">
+          <div>🚚</div>
+          <span>In Transit</span>
         </div>
 
-        <div>
+        <div class="delivery-line"></div>
 
-          <span>Farmer Locations</span>
-
-          <strong id="locationCount">
-            0
-          </strong>
-
-        </div>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon purple">
-          🔗
-        </div>
-
-        <div>
-
-          <span>Direct Connections</span>
-
-          <strong id="connectionCount">
-            0
-          </strong>
-
+        <div class="delivery-step">
+          <div>🏠</div>
+          <span>Delivered</span>
         </div>
 
       </div>
@@ -519,84 +939,30 @@
     </section>
 
 
-    <!-- SEARCH -->
+    <!-- QR -->
 
-    <section class="search-section">
+    <section class="qr-section">
 
-      <div class="search-box">
-
-        🔎
-
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search tomatoes, onions, banana..."
-          oninput="renderConsumerProducts()">
-
-      </div>
-
-      <select id="locationFilter"
-              onchange="renderConsumerProducts()">
-
-        <option value="all">
-          All Locations
-        </option>
-
-      </select>
-
-    </section>
-
-
-    <!-- CONSUMER PRODUCTS -->
-
-    <section>
-
-      <div class="section-heading">
-
-        <div>
-
-          <span class="eyebrow">
-            FARM DIRECT
-          </span>
-
-          <h2>
-            Fresh From Farmers
-          </h2>
-
+      <div class="qr-box" id="qrBox">
+        <div class="fake-qr">
+          ▦
         </div>
-
       </div>
 
-      <div id="consumerProductGrid"
-           class="produce-grid">
+      <div>
 
-      </div>
+        <span class="mini-label">TRACEABILITY</span>
 
-    </section>
+        <h2>🔐 QR Produce Traceability</h2>
 
+        <p>
+          Scan the produce QR to view farmer, location,
+          crop, quantity and journey information.
+        </p>
 
-    <!-- MY DEMANDS -->
-
-    <section class="demand-section">
-
-      <div class="section-heading">
-
-        <div>
-
-          <span class="eyebrow">
-            YOUR REQUIREMENTS
-          </span>
-
-          <h2>
-            My PowerPool Demands
-          </h2>
-
-        </div>
-
-      </div>
-
-      <div id="demandGrid"
-           class="demand-grid">
+        <button class="primary-btn" onclick="showQRInfo()">
+          View Traceability
+        </button>
 
       </div>
 
@@ -604,233 +970,31 @@
 
   </main>
 
-</div>
 
+  <!-- TOAST -->
 
-<!-- =====================================================
-     PRODUCE MODAL
-===================================================== -->
-
-<div id="produceModal"
-     class="modal">
-
-  <div class="modal-card">
-
-    <button class="close-btn"
-            onclick="closeProduceModal()">
-      ×
-    </button>
-
-    <span class="eyebrow">
-      FARMER
-    </span>
-
-    <h2>
-      List Your Produce 🌱
-    </h2>
-
-    <p class="modal-subtitle">
-      Add your harvest to the FARMSYNC network.
-    </p>
-
-
-    <form id="produceForm">
-
-      <label>
-        Farmer Name
-      </label>
-
-      <input
-        id="farmerName"
-        type="text"
-        placeholder="Enter your name"
-        required>
-
-
-      <label>
-        Location
-      </label>
-
-      <input
-        id="farmerLocation"
-        type="text"
-        placeholder="Village / City"
-        required>
-
-
-      <label>
-        Crop / Produce
-      </label>
-
-      <input
-        id="cropName"
-        type="text"
-        placeholder="Example: Tomato"
-        required>
-
-
-      <div class="two-input">
-
-        <div>
-
-          <label>
-            Quantity (kg)
-          </label>
-
-          <input
-            id="cropQuantity"
-            type="number"
-            min="1"
-            placeholder="100"
-            required>
-
-        </div>
-
-
-        <div>
-
-          <label>
-            Price / kg (₹)
-          </label>
-
-          <input
-            id="cropPrice"
-            type="number"
-            min="1"
-            placeholder="30"
-            required>
-
-        </div>
-
-      </div>
-
-
-      <button class="primary-btn full-btn"
-              type="submit">
-
-        Add to FARMSYNC
-
-      </button>
-
-    </form>
-
+  <div id="toast" class="toast">
+    <span>✓</span>
+    <div>
+      <strong>Success</strong>
+      <small id="toastText">Action completed</small>
+    </div>
   </div>
 
-</div>
 
+  <!-- FOOTER -->
 
-<!-- =====================================================
-     DEMAND MODAL
-===================================================== -->
+  <footer>
 
-<div id="demandModal"
-     class="modal">
+    <div class="footer-brand">
+      🌱 <strong>FARMSYNC</strong>
+    </div>
 
-  <div class="modal-card">
+    <span>Farm to Family • Smart Agriculture</span>
 
-    <button class="close-btn"
-            onclick="closeDemandModal()">
-      ×
-    </button>
+    <span>College SIH Prototype</span>
 
-    <span class="eyebrow">
-      CONSUMER
-    </span>
-
-    <h2>
-      Create a Demand ⚡
-    </h2>
-
-    <p class="modal-subtitle">
-      Your requirement will be added to PowerPool.
-    </p>
-
-
-    <form id="demandForm">
-
-      <label>
-        Consumer Name
-      </label>
-
-      <input
-        id="consumerName"
-        type="text"
-        placeholder="Enter your name"
-        required>
-
-
-      <label>
-        Location
-      </label>
-
-      <input
-        id="consumerLocation"
-        type="text"
-        placeholder="City / Area"
-        required>
-
-
-      <label>
-        Required Produce
-      </label>
-
-      <input
-        id="demandCrop"
-        type="text"
-        placeholder="Example: Tomato"
-        required>
-
-
-      <label>
-        Required Quantity (kg)
-      </label>
-
-      <input
-        id="demandQuantity"
-        type="number"
-        min="1"
-        placeholder="25"
-        required>
-
-
-      <label>
-        Maximum Price / kg (₹)
-      </label>
-
-      <input
-        id="demandPrice"
-        type="number"
-        min="1"
-        placeholder="35"
-        required>
-
-
-      <button class="primary-btn full-btn"
-              type="submit">
-
-        Add to PowerPool ⚡
-
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- TOAST -->
-
-<div id="toast"
-     class="toast">
-
-  <span id="toastIcon">
-    ✓
-  </span>
-
-  <span id="toastMessage">
-    Success
-  </span>
+  </footer>
 
 </div>
 
